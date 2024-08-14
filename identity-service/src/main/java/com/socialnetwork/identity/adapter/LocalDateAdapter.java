@@ -1,0 +1,24 @@
+package com.socialnetwork.identity.adapter;
+
+import com.google.gson.*;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Override
+    public JsonElement serialize(final LocalDate date, final Type typeOfSrc, final JsonSerializationContext context) {
+        return new JsonPrimitive(date.format(formatter));
+    }
+
+    @Override
+    public LocalDate deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+        return LocalDate.parse(json.getAsString(), formatter);
+    }
+}
