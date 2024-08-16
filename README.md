@@ -19,7 +19,8 @@ This microservice is responsible for:
 
 ## Build application
 `mvn clean package`
-
+## Streaming message event with `Kafka`
+https://kafka.apache.org/documentation/#configuration
 ## Docker `cmd` guideline
 ### Build docker image
 `docker buildx build --platform <platform_name> -t <docker_hub_account>/<image_name>:<image_version> .`
