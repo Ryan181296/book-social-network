@@ -9,8 +9,8 @@ services:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER-SERVER_ID: 1
-      ZOOKEEPER_SERVERS: "zookeeper-01:2888:3888,zookeeper-02:2888:3888"
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_SERVERS: zookeeper-01:2888:3888,zookeeper-02:2888:3888,zookeeper-03:2888:3888
 
   zookeeper-02:
     image: confluentinc/cp-zookeeper:latest
@@ -22,8 +22,21 @@ services:
       - "2182:2182"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2182
-      ZOOKEEPER-SERVER_ID: 2
-      ZOOKEEPER_SERVERS: "zookeeper-01:2888:3888,zookeeper-02:2888:3888"
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_SERVERS: zookeeper-01:2888:3888,zookeeper-02:2888:3888,zookeeper-03:2888:3888
+
+  zookeeper-03:
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper-03
+    container_name: zookeeper-03
+    networks:
+      - book-social-network
+    ports:
+      - "2183:2183"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2183
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_SERVERS: zookeeper-01:2888:3888,zookeeper-02:2888:3888,zookeeper-03:2888:3888
 
   kafka-broker-01:
     image: confluentinc/cp-kafka:latest
@@ -34,7 +47,7 @@ services:
       - "29092:29092"
       - "9999:9999"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker-01:19092,EXTERNAL://${DOCKER_HOST_IP:127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker-01:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-01:2181,zookeeper-02:2182
@@ -43,7 +56,7 @@ services:
       KAFKA_TRANSACTION_STAGE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:127.0.0.1}
+      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: true
     depends_on:
@@ -58,7 +71,7 @@ services:
       - "9093:9093"
       - "29093:29093"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker-01:19093,EXTERNAL://${DOCKER_HOST_IP:127.0.0.1}:9093,DOCKER://host.docker.internal:29093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker-01:19093,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093,DOCKER://host.docker.internal:29093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-01:2181,zookeeper-02:2182
