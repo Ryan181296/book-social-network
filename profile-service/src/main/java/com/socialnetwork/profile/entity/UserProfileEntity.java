@@ -1,4 +1,4 @@
-package com.socialnetwork.profile_service.entity;
+package com.socialnetwork.profile.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

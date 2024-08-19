@@ -1,4 +1,4 @@
-package com.socialnetwork.profile_service;
+package com.socialnetwork.profile;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

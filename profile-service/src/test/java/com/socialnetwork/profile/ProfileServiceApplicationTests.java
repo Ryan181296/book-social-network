@@ -1,4 +1,4 @@
-package com.socialnetwork.profile_service;
+package com.socialnetwork.profile;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

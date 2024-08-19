@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.socialnetwork.profile-service' is invalid and this project uses 'com.socialnetwork.profile_service' instead.
+* The original package name 'com.socialnetwork.profile-service' is invalid and this project uses 'com.socialnetwork.profile' instead.
 
 # Getting Started
 

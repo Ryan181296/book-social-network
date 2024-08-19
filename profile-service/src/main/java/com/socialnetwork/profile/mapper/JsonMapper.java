@@ -1,8 +1,8 @@
-package com.socialnetwork.profile_service.mapper;
+package com.socialnetwork.profile.mapper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.socialnetwork.profile_service.adapter.*;
+import com.socialnetwork.profile.adapter.*;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

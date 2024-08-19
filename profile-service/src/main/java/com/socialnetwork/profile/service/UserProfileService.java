@@ -1,10 +1,10 @@
-package com.socialnetwork.profile_service.service;
+package com.socialnetwork.profile.service;
 
-import com.socialnetwork.profile_service.dto.request.UserProfileCreationRequestDTO;
-import com.socialnetwork.profile_service.dto.response.UserProfileCreationResponseDTO;
-import com.socialnetwork.profile_service.entity.UserProfileEntity;
-import com.socialnetwork.profile_service.mapper.JsonMapper;
-import com.socialnetwork.profile_service.repository.UserProfileRepository;
+import com.socialnetwork.profile.dto.request.UserProfileCreationRequestDTO;
+import com.socialnetwork.profile.dto.response.UserProfileCreationResponseDTO;
+import com.socialnetwork.profile.entity.UserProfileEntity;
+import com.socialnetwork.profile.mapper.JsonMapper;
+import com.socialnetwork.profile.repository.UserProfileRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

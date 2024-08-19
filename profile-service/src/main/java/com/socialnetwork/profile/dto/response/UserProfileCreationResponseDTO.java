@@ -1,4 +1,4 @@
-package com.socialnetwork.profile_service.dto.request;
+package com.socialnetwork.profile.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequestDTO {
+public class UserProfileCreationResponseDTO {
+    String id;
     String userId;
     String firstName;
     String lastName;

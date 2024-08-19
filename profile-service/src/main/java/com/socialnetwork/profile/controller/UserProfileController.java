@@ -1,8 +1,8 @@
-package com.socialnetwork.profile_service.controller;
+package com.socialnetwork.profile.controller;
 
-import com.socialnetwork.profile_service.dto.request.UserProfileCreationRequestDTO;
-import com.socialnetwork.profile_service.dto.response.UserProfileCreationResponseDTO;
-import com.socialnetwork.profile_service.service.UserProfileService;
+import com.socialnetwork.profile.dto.request.UserProfileCreationRequestDTO;
+import com.socialnetwork.profile.dto.response.UserProfileCreationResponseDTO;
+import com.socialnetwork.profile.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
-package com.socialnetwork.profile_service.repository;
+package com.socialnetwork.profile.repository;
 
-import com.socialnetwork.profile_service.entity.UserProfileEntity;
+import com.socialnetwork.profile.entity.UserProfileEntity;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 

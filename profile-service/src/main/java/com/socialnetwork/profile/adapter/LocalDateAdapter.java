@@ -1,4 +1,4 @@
-package com.socialnetwork.profile_service.adapter;
+package com.socialnetwork.profile.adapter;
 
 import com.google.gson.*;
 import lombok.AccessLevel;
