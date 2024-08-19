@@ -5,7 +5,7 @@ import com.socialnetwork.identity.dto.request.PermissionUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonPermissionResponseDTO;
 import com.socialnetwork.identity.entity.PermissionEntity;
 import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.exception.ServiceException;
+import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.PermissionRepository;
 import lombok.AccessLevel;
@@ -29,7 +29,7 @@ public class PermissionService {
     public CommonPermissionResponseDTO create(PermissionCreateRequestDTO requestDTO) {
         var permissionEntity = JsonMapper.map(requestDTO, PermissionEntity.class);
         if (Objects.isNull(permissionEntity)) {
-            throw new ServiceException(ErrorCode.CANNOT_PARSE_DATA);
+            throw new CustomException(ErrorCode.CANNOT_PARSE_DATA);
         }
 
         try {
@@ -37,12 +37,12 @@ public class PermissionService {
             return JsonMapper.map(permissionCreatedEntity, CommonPermissionResponseDTO.class);
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            throw new ServiceException(ErrorCode.PERMISSION_EXISTED);
+            throw new CustomException(ErrorCode.PERMISSION_EXISTED);
         }
     }
 
     public CommonPermissionResponseDTO update(PermissionUpdateRequestDTO requestDTO) {
-        var permissionUpdateEntity = permissionRepository.findByName(requestDTO.getName()).orElseThrow(() -> new ServiceException(ErrorCode.PERMISSION_NOT_FOUND));
+        var permissionUpdateEntity = permissionRepository.findByName(requestDTO.getName()).orElseThrow(() -> new CustomException(ErrorCode.PERMISSION_NOT_FOUND));
 
         permissionUpdateEntity.setName(requestDTO.getName());
         permissionUpdateEntity.setDescription(requestDTO.getDescription());

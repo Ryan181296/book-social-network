@@ -30,7 +30,8 @@ public enum ErrorCode {
     PERMISSION_NAME_INVALID(1012, "Permission name invalid", HttpStatus.BAD_REQUEST),
     ROLE_NAME_INVALID(1012, "Role name invalid", HttpStatus.BAD_REQUEST),
     FIRST_NAME_INVALID(1113, "First name invalid", HttpStatus.BAD_REQUEST),
-    LAST_NAME_INVALID(1114, "Last name invalid", HttpStatus.BAD_REQUEST);
+    LAST_NAME_INVALID(1114, "Last name invalid", HttpStatus.BAD_REQUEST),
+    CREATE_USER_PROFILE_ERROR(1115, "Create user profile error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     int code;
     String message;

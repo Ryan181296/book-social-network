@@ -4,7 +4,7 @@ import com.socialnetwork.identity.dto.request.AuthenticationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.entity.InvalidatedTokenEntity;
 import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.exception.ServiceException;
+import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.repository.InvalidatedTokenRepository;
 import com.socialnetwork.identity.repository.UserRepository;
 import com.socialnetwork.identity.util.AuthenticationUtils;
@@ -42,7 +42,7 @@ public class AuthenticationService {
 
     public AuthenticationResponseDTO getToken(AuthenticationRequestDTO requestDTO) {
         var userEntity = userRepository.findByUsername(requestDTO.getUsername())
-                .orElseThrow(() -> new ServiceException(ErrorCode.USERNAME_OR_PASSWORD_INVALID));
+                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_OR_PASSWORD_INVALID));
 
         var passwordEncoder = new BCryptPasswordEncoder(10);
         if (passwordEncoder.matches(requestDTO.getPassword(), userEntity.getPassword())) {
@@ -52,7 +52,7 @@ public class AuthenticationService {
                     .accessTokenType(ACCESS_TOKEN_TYPE)
                     .build();
         } else {
-            throw new ServiceException(ErrorCode.USERNAME_OR_PASSWORD_INVALID);
+            throw new CustomException(ErrorCode.USERNAME_OR_PASSWORD_INVALID);
         }
     }
 
@@ -64,12 +64,12 @@ public class AuthenticationService {
         var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         if (!(verified && expiryTime.after(new Date()))) {
-            throw new ServiceException(ErrorCode.UNAUTHENTICATED);
+            throw new CustomException(ErrorCode.UNAUTHENTICATED);
         }
 
         var jwtId = signedJWT.getJWTClaimsSet().getJWTID();
         if (invalidatedTokenRepository.existsById(jwtId)) {
-            throw new ServiceException(ErrorCode.UNAUTHORIZED);
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
     }
 
@@ -87,7 +87,7 @@ public class AuthenticationService {
         // Generate new access token.
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         var userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         var newAccessToken = AuthenticationUtils.generateAccessToken(userEntity, secretKey);
         return AuthenticationResponseDTO.builder()

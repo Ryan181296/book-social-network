@@ -5,7 +5,7 @@ import com.socialnetwork.identity.dto.request.RoleUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonRoleResponseDTO;
 import com.socialnetwork.identity.entity.RoleEntity;
 import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.exception.ServiceException;
+import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.PermissionRepository;
 import com.socialnetwork.identity.repository.RoleRepository;
@@ -34,10 +34,10 @@ public class RoleService {
     public CommonRoleResponseDTO create(RoleCreateRequestDTO requestDTO) {
         var roleEntity = JsonMapper.map(requestDTO, RoleEntity.class);
         if (Objects.isNull(roleEntity)) {
-            throw new ServiceException(ErrorCode.CANNOT_PARSE_DATA);
+            throw new CustomException(ErrorCode.CANNOT_PARSE_DATA);
         }
 
-        var permissionEntities = permissionRepository.findAllByName(requestDTO.getPermissions());
+        var permissionEntities = permissionRepository.findAllByName(requestDTO.getPermissionNames());
         roleEntity.setPermissions(new HashSet<>(permissionEntities));
 
         try {
@@ -45,12 +45,12 @@ public class RoleService {
             return JsonMapper.map(roleCreatedEntity, CommonRoleResponseDTO.class);
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            throw new ServiceException(ErrorCode.ROLE_EXISTED);
+            throw new CustomException(ErrorCode.ROLE_EXISTED);
         }
     }
 
     public CommonRoleResponseDTO update(RoleUpdateRequestDTO requestDTO) {
-        var roleUpdateEntity = roleRepository.findByName(requestDTO.getName()).orElseThrow(() -> new ServiceException(ErrorCode.ROLE_NOT_FOUND));
+        var roleUpdateEntity = roleRepository.findByName(requestDTO.getName()).orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND));
 
         roleUpdateEntity.setName(requestDTO.getName());
         roleUpdateEntity.setDescription(requestDTO.getDescription());

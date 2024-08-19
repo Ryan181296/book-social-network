@@ -37,5 +37,5 @@ jwt:
 
 app:
   services:
-    profile: ${PROFILE_HOST:http://localhost:8081/user-profile/api}
+    profile: ${PROFILE_HOST:http://localhost:8081/user-profile}
 

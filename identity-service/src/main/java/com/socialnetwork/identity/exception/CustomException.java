@@ -8,10 +8,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ServiceException extends RuntimeException {
+public class CustomException extends RuntimeException {
     ErrorCode errorCode;
 
-    public ServiceException(ErrorCode errorCode) {
+    public CustomException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }

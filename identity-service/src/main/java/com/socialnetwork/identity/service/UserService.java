@@ -5,8 +5,8 @@ import com.socialnetwork.identity.dto.request.UserProfileCreationRequestDTO;
 import com.socialnetwork.identity.dto.request.UserUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonUserResponseDTO;
 import com.socialnetwork.identity.entity.UserEntity;
+import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.exception.ServiceException;
 import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.RoleRepository;
 import com.socialnetwork.identity.repository.UserRepository;
@@ -41,27 +41,35 @@ public class UserService {
     public CommonUserResponseDTO create(UserCreationRequestDTO requestDTO) {
         var userEntity = JsonMapper.map(requestDTO, UserEntity.class);
         if (Objects.isNull(userEntity)) {
-            throw new ServiceException(ErrorCode.CANNOT_PARSE_DATA);
+            throw new CustomException(ErrorCode.CANNOT_PARSE_DATA);
         }
 
+        // encode password.
         var passwordEncoder = new BCryptPasswordEncoder(10);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 
         try {
             var userCreated = userRepository.save(userEntity);
 
+            // create profile.
             var profileRequestDTO = JsonMapper.map(userCreated, UserProfileCreationRequestDTO.class);
-            profileRequestDTO.setUserId(userCreated.getId());
-            var response = profileClient.createProfile(profileRequestDTO);
+            if (Objects.nonNull(profileRequestDTO)) {
+                profileRequestDTO.setUserId(userCreated.getId());
+                var responseData = profileClient.createProfile(profileRequestDTO);
+                // TODO: handle business logic based on responseData here!
+            }
             return JsonMapper.map(userCreated, CommonUserResponseDTO.class);
+
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            throw new ServiceException(ErrorCode.USER_EXISTED);
+            throw new CustomException(ErrorCode.USER_EXISTED);
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.CREATE_USER_PROFILE_ERROR);
         }
     }
 
     public CommonUserResponseDTO getById(String userId) {
-        var userEntity = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        var userEntity = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         return JsonMapper.map(userEntity, CommonUserResponseDTO.class);
     }
 
@@ -74,14 +82,14 @@ public class UserService {
         var context = SecurityContextHolder.getContext();
         var name = context.getAuthentication().getName();
 
-        var userEntity = userRepository.findByUsername(name).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        var userEntity = userRepository.findByUsername(name).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         return JsonMapper.map(userEntity, CommonUserResponseDTO.class);
     }
 
     public CommonUserResponseDTO update(UserUpdateRequestDTO requestDTO) {
         var context = SecurityContextHolder.getContext();
         var name = context.getAuthentication().getName();
-        var userUpdateEntity = userRepository.findByUsername(name).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        var userUpdateEntity = userRepository.findByUsername(name).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         userUpdateEntity.setFirstName(requestDTO.getFirstName());
         userUpdateEntity.setLastName(requestDTO.getLastName());
@@ -91,11 +99,11 @@ public class UserService {
     }
 
     public CommonUserResponseDTO updateById(String userId, UserUpdateRequestDTO requestDTO) {
-        var userUpdateEntity = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
+        var userUpdateEntity = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         userUpdateEntity.setFirstName(requestDTO.getFirstName());
         userUpdateEntity.setLastName(requestDTO.getLastName());
 
-        var roleEntities = roleRepository.findAllByName(requestDTO.getRoles());
+        var roleEntities = roleRepository.findAllByName(requestDTO.getRoleNames());
         userUpdateEntity.setRoles(new HashSet<>(roleEntities));
 
         var userUpdatedEntity = userRepository.save(userUpdateEntity);

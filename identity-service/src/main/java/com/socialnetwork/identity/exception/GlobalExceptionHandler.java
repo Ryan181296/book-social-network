@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
-    @ExceptionHandler(ServiceException.class)
-    ResponseEntity<ResponseObject<?>> handlingServiceException(ServiceException e) {
+    @ExceptionHandler(CustomException.class)
+    ResponseEntity<ResponseObject<?>> handlingServiceException(CustomException e) {
         var errorCode = e.getErrorCode();
         return ResponseEntity.badRequest().body(ResponseObject.builder()
                 .code(errorCode.getCode())
