@@ -1,6 +1,7 @@
 package com.socialnetwork.identity.service;
 
 import com.socialnetwork.identity.dto.request.UserCreationRequestDTO;
+import com.socialnetwork.identity.dto.request.UserProfileCreationRequestDTO;
 import com.socialnetwork.identity.dto.request.UserUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonUserResponseDTO;
 import com.socialnetwork.identity.entity.UserEntity;
@@ -9,6 +10,7 @@ import com.socialnetwork.identity.exception.ServiceException;
 import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.RoleRepository;
 import com.socialnetwork.identity.repository.UserRepository;
+import com.socialnetwork.identity.repository.client.ProfileClient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,6 +35,9 @@ public class UserService {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    ProfileClient profileClient;
+
     public CommonUserResponseDTO create(UserCreationRequestDTO requestDTO) {
         var userEntity = JsonMapper.map(requestDTO, UserEntity.class);
         if (Objects.isNull(userEntity)) {
@@ -44,6 +49,10 @@ public class UserService {
 
         try {
             var userCreated = userRepository.save(userEntity);
+
+            var profileRequestDTO = JsonMapper.map(userCreated, UserProfileCreationRequestDTO.class);
+            profileRequestDTO.setUserId(userCreated.getId());
+            var response = profileClient.createProfile(profileRequestDTO);
             return JsonMapper.map(userCreated, CommonUserResponseDTO.class);
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());

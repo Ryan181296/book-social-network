@@ -34,3 +34,8 @@ spring:
 
 jwt:
   secret-key: ${SECRET_KEY:uz85j9Ka41OK2jQEY0z8C6cC0hsHzRo1jMyfvYY0iU9MkwO2xdyU+T7GkFI87lji}
+
+app:
+  services:
+    profile: ${PROFILE_HOST:http://localhost:8081/user-profile/api}
+

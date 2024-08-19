@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserProfileCreationRequestDTO {
+    String userId;
     String firstName;
     String lastName;
     LocalDate dob;

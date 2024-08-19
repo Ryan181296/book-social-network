@@ -1,14 +1,16 @@
 package com.socialnetwork.identity.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationRequestDTO {
+    @NotNull
     String username;
+
+    @NotNull
     String password;
 }

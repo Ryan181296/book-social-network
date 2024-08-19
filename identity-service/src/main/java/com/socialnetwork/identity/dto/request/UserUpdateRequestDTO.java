@@ -1,20 +1,19 @@
 package com.socialnetwork.identity.dto.request;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequestDTO {
-    @Size(min = 8, max = 30, message = "PASSWORD_INPUT_INVALID")
-    String password;
+    @NotBlank
     String firstName;
+
+    @NotBlank
     String lastName;
     transient Set<String> roles;
 }
