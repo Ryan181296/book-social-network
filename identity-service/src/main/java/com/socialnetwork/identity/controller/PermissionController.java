@@ -5,12 +5,12 @@ import com.socialnetwork.identity.dto.request.PermissionUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonPermissionResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
 import com.socialnetwork.identity.service.PermissionService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -21,32 +21,28 @@ public class PermissionController {
     @Autowired
     PermissionService permissionService;
 
-    @PostMapping
-    @Operation(description = "Create a permission")
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO> create(@Valid @RequestBody PermissionCreateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
                 .data(permissionService.create(requestDTO))
                 .build();
     }
 
-    @GetMapping(value = "/all")
-    @Operation(description = "Get all permissions")
+    @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO[]> getAll() {
         return ResponseObject.<CommonPermissionResponseDTO[]>builder()
                 .data(permissionService.getAll())
                 .build();
     }
 
-    @PutMapping
-    @Operation(description = "Update a permission")
+    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO> update(@Valid @RequestBody PermissionUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
                 .data(permissionService.update(requestDTO))
                 .build();
     }
 
-    @DeleteMapping(value = "/{permissionName}")
-    @Operation(description = "Delete a permission")
+    @DeleteMapping(value = "/{permissionName}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<Void> delete(@PathVariable String permissionName) {
         permissionService.delete(permissionName);
         return ResponseObject.<Void>builder().build();

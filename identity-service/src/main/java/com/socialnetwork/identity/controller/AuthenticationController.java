@@ -5,8 +5,6 @@ import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
 import com.socialnetwork.identity.service.AuthenticationService;
 import com.socialnetwork.identity.service.InvalidatedTokenService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -28,7 +26,6 @@ public class AuthenticationController {
     InvalidatedTokenService invalidatedTokenService;
 
     @PostMapping(value = "/login", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(description = "Login with username and password")
     public ResponseObject<AuthenticationResponseDTO> login(@RequestBody AuthenticationRequestDTO requestDTO) {
         return ResponseObject.<AuthenticationResponseDTO>builder()
                 .data(authenticationService.login(requestDTO))
@@ -36,7 +33,6 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/logout", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(security = {@SecurityRequirement(name = "Authorization")}, description = "Logout")
     public ResponseObject<Void> logout(@RequestHeader("Authorization") String accessToken) throws ParseException {
         invalidatedTokenService.logout(accessToken);
         return ResponseObject.<Void>builder()
@@ -44,7 +40,6 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/refresh-token", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(security = {@SecurityRequirement(name = "Authorization")}, description = "Refresh token")
     public ResponseObject<AuthenticationResponseDTO> refreshToken(@RequestHeader("Authorization") String accessToken) throws ParseException {
         return ResponseObject.<AuthenticationResponseDTO>builder()
                 .data(authenticationService.refreshToken(accessToken))
