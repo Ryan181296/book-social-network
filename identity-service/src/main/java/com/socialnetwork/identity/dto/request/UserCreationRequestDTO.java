@@ -19,14 +19,14 @@ public class UserCreationRequestDTO {
     @Size(min = 8, max = 30, message = "PASSWORD_INPUT_INVALID")
     String password;
 
-    @NotBlank
+    @NotBlank(message = "FIRST_NAME_INVALID")
     String firstName;
 
-    @NotBlank
+    @NotBlank(message = "LAST_NAME_INVALID")
     String lastName;
 
     @DobConstraint(min = 18, message = "BIRTHDAY_INVALID")
     LocalDate dob;
 
-    transient Set<String> roles;
+    Set<String> roleNames;
 }

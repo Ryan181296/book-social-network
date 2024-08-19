@@ -26,7 +26,11 @@ public enum ErrorCode {
     ROLE_EXISTED(1009, "Role existed", HttpStatus.BAD_REQUEST),
     PERMISSION_NOT_FOUND(1010, "Permission not found", HttpStatus.BAD_REQUEST),
     ROLE_NOT_FOUND(1011, "Role not found", HttpStatus.BAD_REQUEST),
-    BIRTHDAY_INVALID(1011, "Your age is at least {min}", HttpStatus.BAD_REQUEST);
+    BIRTHDAY_INVALID(1011, "Your age is at least {min}", HttpStatus.BAD_REQUEST),
+    PERMISSION_NAME_INVALID(1012, "Permission name invalid", HttpStatus.BAD_REQUEST),
+    ROLE_NAME_INVALID(1012, "Role name invalid", HttpStatus.BAD_REQUEST),
+    FIRST_NAME_INVALID(1113, "First name invalid", HttpStatus.BAD_REQUEST),
+    LAST_NAME_INVALID(1114, "Last name invalid", HttpStatus.BAD_REQUEST);
 
     int code;
     String message;

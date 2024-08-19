@@ -10,10 +10,10 @@ import java.util.Set;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequestDTO {
-    @NotBlank
+    @NotBlank(message = "FIRST_NAME_INVALID")
     String firstName;
 
-    @NotBlank
+    @NotBlank(message = "LAST_NAME_INVALID")
     String lastName;
-    transient Set<String> roles;
+    Set<String> roleNames;
 }

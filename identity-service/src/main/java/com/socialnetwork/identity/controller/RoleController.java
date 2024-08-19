@@ -5,6 +5,7 @@ import com.socialnetwork.identity.dto.request.RoleUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonRoleResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
 import com.socialnetwork.identity.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,7 @@ public class RoleController {
     RoleService roleService;
 
     @PostMapping
-    public ResponseObject<CommonRoleResponseDTO> create(@RequestBody RoleCreateRequestDTO requestDTO) {
+    public ResponseObject<CommonRoleResponseDTO> create(@Valid @RequestBody RoleCreateRequestDTO requestDTO) {
         return ResponseObject.<CommonRoleResponseDTO>builder()
                 .data(roleService.create(requestDTO))
                 .build();
@@ -34,7 +35,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public ResponseObject<CommonRoleResponseDTO> update(@RequestBody RoleUpdateRequestDTO requestDTO) {
+    public ResponseObject<CommonRoleResponseDTO> update(@Valid @RequestBody RoleUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonRoleResponseDTO>builder()
                 .data(roleService.update(requestDTO))
                 .build();

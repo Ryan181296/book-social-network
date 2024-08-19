@@ -5,6 +5,7 @@ import com.socialnetwork.identity.dto.request.PermissionUpdateRequestDTO;
 import com.socialnetwork.identity.dto.response.CommonPermissionResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
 import com.socialnetwork.identity.service.PermissionService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,7 @@ public class PermissionController {
     PermissionService permissionService;
 
     @PostMapping
-    public ResponseObject<CommonPermissionResponseDTO> create(@RequestBody PermissionCreateRequestDTO requestDTO) {
+    public ResponseObject<CommonPermissionResponseDTO> create(@Valid @RequestBody PermissionCreateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
                 .data(permissionService.create(requestDTO))
                 .build();
@@ -34,7 +35,7 @@ public class PermissionController {
     }
 
     @PutMapping
-    public ResponseObject<CommonPermissionResponseDTO> update(@RequestBody PermissionUpdateRequestDTO requestDTO) {
+    public ResponseObject<CommonPermissionResponseDTO> update(@Valid @RequestBody PermissionUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
                 .data(permissionService.update(requestDTO))
                 .build();
