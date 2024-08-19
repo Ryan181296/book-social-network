@@ -1,4 +1,4 @@
-package com.socialnetwork.identity.configuration;
+package com.socialnetwork.identity.config;
 
 import com.socialnetwork.identity.enums.RoleType;
 import com.socialnetwork.identity.util.AuthenticationUtils;
@@ -8,15 +8,16 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
-    static final String[] PUBLIC_ENDPOINTS = {
-            "/v1/auth/login",
-            "/v1/user"
-    };
-
     @Autowired
     CustomJwtDecoder customJwtDecoder;
 
@@ -41,9 +37,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/user/all", "/v1/role/all", "/v1/permission/all").hasRole(RoleType.ADMIN.name())
-                        .anyRequest().authenticated());
+                request.requestMatchers("/v1/auth/login").permitAll()
+                        .requestMatchers("/v1/auth/refresh-token").permitAll()
+                        .requestMatchers("/v1/permission").permitAll()
+                        .requestMatchers("/v1/permission/*").permitAll()
+                        .requestMatchers("/v1/role").permitAll()
+                        .requestMatchers("/v1/role/*").permitAll()
+                        .requestMatchers("/v1/**").authenticated()
+                        .requestMatchers("/v1/user/all").hasRole(RoleType.ADMIN.name())
+                        .requestMatchers("/v1/permission/all").hasRole(RoleType.ADMIN.name())
+                        .requestMatchers("/v1/role/all").hasRole(RoleType.ADMIN.name()).anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
@@ -53,20 +56,19 @@ public class SecurityConfig {
         );
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-
         return httpSecurity.build();
     }
 
     @Bean
-    public CorsFilter corsFilter() {
-        var corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addExposedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+    CorsConfigurationSource corsConfigurationSource() {
+        var configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
-        var urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-
-        return new CorsFilter(urlBasedCorsConfigurationSource);
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

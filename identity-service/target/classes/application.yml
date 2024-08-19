@@ -13,24 +13,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  kafka:
-    bootstrap-servers: ${KAFKA_CONNECTION:localhost:9092}
-    consumer:
-      group-id: create-user-profile-processing-group
-      auto-offset-reset: earliest
-      enable-auto-commit: true
-      properties:
-        security:
-          protocol: PLAINTEXT
-    producer:
-      acks: all
-      retries: 3
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    listener:
-      missing-topics-fatal: false
-      concurrency: 3
-      ack-mode: manual
+
+springdoc:
+  packagesToScan: com.socialnetwork.identity.controller
+  api-docs:
+    path: swagger-api-docs
+  swagger-ui:
+    enabled: true
 
 jwt:
   secret-key: ${SECRET_KEY:uz85j9Ka41OK2jQEY0z8C6cC0hsHzRo1jMyfvYY0iU9MkwO2xdyU+T7GkFI87lji}

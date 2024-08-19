@@ -1,4 +1,4 @@
-package com.socialnetwork.identity.configuration;
+package com.socialnetwork.identity.config;
 
 import com.socialnetwork.identity.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;

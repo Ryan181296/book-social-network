@@ -40,7 +40,7 @@ public class AuthenticationService {
 
     static final String ACCESS_TOKEN_TYPE = "Bearer";
 
-    public AuthenticationResponseDTO getToken(AuthenticationRequestDTO requestDTO) {
+    public AuthenticationResponseDTO login(AuthenticationRequestDTO requestDTO) {
         var userEntity = userRepository.findByUsername(requestDTO.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_OR_PASSWORD_INVALID));
 
