@@ -1,7 +1,5 @@
-package com.socialnetwork.identity.config;
+package com.socialnetwork.profile.config;
 
-import com.socialnetwork.identity.enums.RoleType;
-import com.socialnetwork.identity.util.AuthenticationUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -39,18 +37,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers("/v1/auth/login").permitAll()
-                        .requestMatchers("/v1/auth/refresh-token").permitAll()
-                        .requestMatchers("/v1/auth/verify-token").permitAll()
-                        .requestMatchers("/v1/permission").permitAll()
-                        .requestMatchers("/v1/permission/*").permitAll()
-                        .requestMatchers("/v1/role").permitAll()
-                        .requestMatchers("/v1/role/*").permitAll()
-                        .requestMatchers("/v1/user/registration").permitAll()
-                        .requestMatchers("/v1/**").authenticated()
-                        .requestMatchers("/v1/user/all").hasRole(RoleType.ADMIN.name())
-                        .requestMatchers("/v1/permission/all").hasRole(RoleType.ADMIN.name())
-                        .requestMatchers("/v1/role/all").hasRole(RoleType.ADMIN.name()).anyRequest().authenticated());
+                request.requestMatchers("/v1/internal-profile").authenticated()
+                        .requestMatchers("v1/**").authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
@@ -76,8 +64,7 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
+    public static JwtAuthenticationConverter jwtAuthenticationConverter() {
         var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
 

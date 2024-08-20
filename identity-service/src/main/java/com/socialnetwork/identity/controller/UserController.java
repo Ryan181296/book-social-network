@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registration", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> create(@Valid @RequestBody UserCreationRequestDTO requestDTO) {
         return ResponseObject.<CommonUserResponseDTO>builder()
                 .data(userService.create(requestDTO))

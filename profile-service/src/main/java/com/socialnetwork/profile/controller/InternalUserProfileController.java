@@ -1,6 +1,7 @@
 package com.socialnetwork.profile.controller;
 
 import com.socialnetwork.profile.dto.request.UserProfileCreationRequestDTO;
+import com.socialnetwork.profile.dto.response.ResponseObject;
 import com.socialnetwork.profile.dto.response.UserProfileCreationResponseDTO;
 import com.socialnetwork.profile.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,9 @@ public class InternalUserProfileController {
     UserProfileService userProfileService;
 
     @PostMapping
-    public UserProfileCreationResponseDTO create(@RequestBody UserProfileCreationRequestDTO requestDTO) {
-        return userProfileService.create(requestDTO);
+    public ResponseObject<UserProfileCreationResponseDTO> create(@RequestBody UserProfileCreationRequestDTO requestDTO) {
+        return ResponseObject.<UserProfileCreationResponseDTO>builder()
+                .data(userProfileService.create(requestDTO))
+                .build();
     }
 }

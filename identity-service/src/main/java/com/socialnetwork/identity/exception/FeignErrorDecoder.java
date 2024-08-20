@@ -5,12 +5,17 @@ import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @Slf4j
 public class FeignErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
-        log.error("methodKey = {}, statusCode = {}, message = {}, data", response.status(), methodKey, response.reason());
+        var responseBody = response.body();
+        var responseData = Objects.nonNull(responseBody) ? responseBody.toString() : "null";
+
+        log.error("methodKey = {}, statusCode = {}, message = {}, data = {}", methodKey, response.status(), response.reason(), responseData);
         return new Exception(response.reason());
     }
 }

@@ -3,6 +3,8 @@ package com.socialnetwork.profile.service;
 import com.socialnetwork.profile.dto.request.UserProfileCreationRequestDTO;
 import com.socialnetwork.profile.dto.response.UserProfileCreationResponseDTO;
 import com.socialnetwork.profile.entity.UserProfileEntity;
+import com.socialnetwork.profile.exception.CustomException;
+import com.socialnetwork.profile.exception.ErrorCode;
 import com.socialnetwork.profile.mapper.JsonMapper;
 import com.socialnetwork.profile.repository.UserProfileRepository;
 import lombok.AccessLevel;
@@ -25,7 +27,7 @@ public class UserProfileService {
     public UserProfileCreationResponseDTO create(UserProfileCreationRequestDTO requestDTO) {
         var userProfileEntity = JsonMapper.map(requestDTO, UserProfileEntity.class);
         if (Objects.isNull(userProfileEntity)) {
-            throw new RuntimeException("Cannot parse data");
+            throw new CustomException(ErrorCode.CANNOT_PARSE_DATA);
         }
 
         var userProfileCreatedEntity = userProfileRepository.save(userProfileEntity);
