@@ -2,6 +2,7 @@ package com.socialnetwork.gateway.config;
 
 import com.socialnetwork.gateway.repository.IdentityClient;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,10 +13,11 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WebClientConfig {
     @NonFinal
-    @Value("${app.services.identity}")
+    @Value("${clients.identity.host}")
     String identityBaseUrl;
 
     @Bean

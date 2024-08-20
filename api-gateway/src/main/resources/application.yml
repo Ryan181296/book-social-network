@@ -1,9 +1,9 @@
 server:
   port: 8888
 
-app:
-  services:
-    identity: http://localhost:8080/identity/api
+clients:
+  identity:
+    host: http://localhost:8080/identity/api
 
 spring:
   application:

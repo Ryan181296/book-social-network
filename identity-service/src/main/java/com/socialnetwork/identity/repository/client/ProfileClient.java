@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "profile-service",
-        url = "${app.services.profile}",
+        url = "${clients.profile.host}",
         path = "/api",
         configuration = FeignErrorDecoder.class)
 public interface ProfileClient {
-    @PostMapping(value = "/v1/internal-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "${clients.profile.create-profile-path}", produces = {MediaType.APPLICATION_JSON_VALUE})
     UserProfileCreationResponseDTO createProfile(@RequestBody UserProfileCreationRequestDTO requestDTO);
 }

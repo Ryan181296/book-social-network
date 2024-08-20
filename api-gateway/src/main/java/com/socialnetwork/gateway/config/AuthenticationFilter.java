@@ -1,5 +1,7 @@
 package com.socialnetwork.gateway.config;
 
+import com.socialnetwork.gateway.dto.response.ResponseObject;
+import com.socialnetwork.gateway.mapper.JsonMapper;
 import com.socialnetwork.gateway.service.IdentityService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +13,14 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -32,11 +37,13 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             return unauthenticated(exchange.getResponse());
         }
         var token = authHeaders.getFirst().replace("Bearer ", "");
-        identityService.verifyToken(token).subscribe(response -> {
-            log.info(response.getData().getAuthenticated().toString());
-            log.info(response.getData().getToken());
-        });
-        return chain.filter(exchange);
+        return identityService.verifyToken(token).flatMap(response -> {
+            if (response.getData().getAuthenticated()) {
+                return chain.filter(exchange);
+            } else {
+                return unauthenticated(exchange.getResponse());
+            }
+        }).onErrorResume(throwable -> unauthenticated(exchange.getResponse()));
     }
 
     @Override
@@ -45,8 +52,13 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     Mono<Void> unauthenticated(ServerHttpResponse response) {
-        var body = "Unauthenticated";
+        var responseJson = Objects.requireNonNullElse(JsonMapper.toJson(ResponseObject.builder()
+                .code(1106)
+                .message("Unauthenticated")
+                .build()), "");
+
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        return response.writeWith(Mono.just(response.bufferFactory().wrap(body.getBytes())));
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return response.writeWith(Mono.just(response.bufferFactory().wrap(responseJson.getBytes())));
     }
 }
