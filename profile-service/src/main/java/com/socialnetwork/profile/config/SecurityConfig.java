@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers("/v1/internal-profile").authenticated()
+                request.requestMatchers("/v1/internal-profile").permitAll()
                         .requestMatchers("v1/**").authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
@@ -64,7 +64,8 @@ public class SecurityConfig {
         return source;
     }
 
-    public static JwtAuthenticationConverter jwtAuthenticationConverter() {
+    @Bean
+    JwtAuthenticationConverter jwtAuthenticationConverter() {
         var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
 
