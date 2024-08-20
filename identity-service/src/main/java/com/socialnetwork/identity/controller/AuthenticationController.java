@@ -1,8 +1,10 @@
 package com.socialnetwork.identity.controller;
 
 import com.socialnetwork.identity.dto.request.AuthenticationRequestDTO;
+import com.socialnetwork.identity.dto.request.TokenVerificationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
+import com.socialnetwork.identity.dto.response.TokenVerificationResponseDTO;
 import com.socialnetwork.identity.service.AuthenticationService;
 import com.socialnetwork.identity.service.InvalidatedTokenService;
 import lombok.AccessLevel;
@@ -43,6 +45,13 @@ public class AuthenticationController {
     public ResponseObject<AuthenticationResponseDTO> refreshToken(@RequestHeader("Authorization") String accessToken) throws ParseException {
         return ResponseObject.<AuthenticationResponseDTO>builder()
                 .data(authenticationService.refreshToken(accessToken))
+                .build();
+    }
+
+    @PostMapping(value = "/verify-token", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseObject<TokenVerificationResponseDTO> verifyToken(@RequestBody TokenVerificationRequestDTO requestDTO) {
+        return ResponseObject.<TokenVerificationResponseDTO>builder()
+                .data(authenticationService.verifyToken(requestDTO))
                 .build();
     }
 }

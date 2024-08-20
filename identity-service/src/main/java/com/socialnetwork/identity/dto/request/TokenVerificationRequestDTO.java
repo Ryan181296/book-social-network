@@ -1,4 +1,4 @@
-package com.socialnetwork.identity.dto.response;
+package com.socialnetwork.identity.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponseDTO {
-    String accessTokenType;
-    String accessToken;
+public class TokenVerificationRequestDTO {
+    String token;
 }

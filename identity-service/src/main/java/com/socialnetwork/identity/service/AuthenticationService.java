@@ -1,7 +1,9 @@
 package com.socialnetwork.identity.service;
 
 import com.socialnetwork.identity.dto.request.AuthenticationRequestDTO;
+import com.socialnetwork.identity.dto.request.TokenVerificationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
+import com.socialnetwork.identity.dto.response.TokenVerificationResponseDTO;
 import com.socialnetwork.identity.entity.InvalidatedTokenEntity;
 import com.socialnetwork.identity.exception.ErrorCode;
 import com.socialnetwork.identity.exception.CustomException;
@@ -54,6 +56,19 @@ public class AuthenticationService {
         } else {
             throw new CustomException(ErrorCode.USERNAME_OR_PASSWORD_INVALID);
         }
+    }
+
+    public TokenVerificationResponseDTO verifyToken(TokenVerificationRequestDTO requestDTO) {
+        var authenticated = true;
+        try {
+            verifyToken(requestDTO.getToken());
+        } catch (JOSEException | ParseException e) {
+            authenticated = false;
+        }
+        return TokenVerificationResponseDTO.builder()
+                .authenticated(authenticated)
+                .token(requestDTO.getToken())
+                .build();
     }
 
     public void verifyToken(String token) throws JOSEException, ParseException {

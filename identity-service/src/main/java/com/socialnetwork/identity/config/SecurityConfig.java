@@ -39,10 +39,12 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers("/v1/auth/login").permitAll()
                         .requestMatchers("/v1/auth/refresh-token").permitAll()
+                        .requestMatchers("/v1/auth/verify-token").permitAll()
                         .requestMatchers("/v1/permission").permitAll()
                         .requestMatchers("/v1/permission/*").permitAll()
                         .requestMatchers("/v1/role").permitAll()
                         .requestMatchers("/v1/role/*").permitAll()
+                        .requestMatchers("/v1/user").permitAll()
                         .requestMatchers("/v1/**").authenticated()
                         .requestMatchers("/v1/user/all").hasRole(RoleType.ADMIN.name())
                         .requestMatchers("/v1/permission/all").hasRole(RoleType.ADMIN.name())

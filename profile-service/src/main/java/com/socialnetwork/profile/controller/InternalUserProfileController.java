@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/profile")
-public class UserProfileController {
+@RequestMapping("/v1/internal-profile")
+public class InternalUserProfileController {
     @Autowired
     UserProfileService userProfileService;
 

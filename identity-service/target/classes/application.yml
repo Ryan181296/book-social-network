@@ -13,13 +13,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-springdoc:
-  packagesToScan: com.socialnetwork.identity.controller
-  api-docs:
-    path: swagger-api-docs
-  swagger-ui:
-    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
 
 jwt:
   secret-key: ${SECRET_KEY:uz85j9Ka41OK2jQEY0z8C6cC0hsHzRo1jMyfvYY0iU9MkwO2xdyU+T7GkFI87lji}

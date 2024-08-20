@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
         path = "/api",
         configuration = FeignErrorDecoder.class)
 public interface ProfileClient {
-    @PostMapping(value = "/v1/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/v1/internal-profile", produces = MediaType.APPLICATION_JSON_VALUE)
     UserProfileCreationResponseDTO createProfile(@RequestBody UserProfileCreationRequestDTO requestDTO);
 }
