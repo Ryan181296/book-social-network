@@ -1,4 +1,4 @@
-package com.socialnetwork.identity.dto.request;
+package com.socialnetwork.notification.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +9,5 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TokenVerificationRequestDTO {
-    String token;
+public class BrevoEmailRequestDTO {
 }

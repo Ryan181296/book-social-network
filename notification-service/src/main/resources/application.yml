@@ -1,0 +1,21 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /notification/api
+
+spring:
+  application:
+    name: notification-service
+  data:
+    mongodb:
+      uri: mongodb://root:Theluong1503@localhost:27017/notification-service?authSource=admin
+
+notification:
+  smtp:
+    api-key: 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
+
+clients:
+  brevo:
+    url: https://api.brevo.com
+    names:
+      email: email-client

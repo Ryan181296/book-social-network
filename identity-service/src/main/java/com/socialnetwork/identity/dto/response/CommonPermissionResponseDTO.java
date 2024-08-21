@@ -1,12 +1,14 @@
 package com.socialnetwork.identity.dto.response;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommonPermissionResponseDTO {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)public class CommonPermissionResponseDTO {
     String name;
     String description;
 }
