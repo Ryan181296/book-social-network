@@ -3,11 +3,9 @@ package com.socialnetwork.identity.exception;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@Component
 @Slf4j
 public class FeignErrorDecoder implements ErrorDecoder {
     @Override
