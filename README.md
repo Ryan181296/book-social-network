@@ -43,9 +43,9 @@ https://kafka.apache.org/documentation/#configuration
 #### Example:
 `docker run --network identity-network --name mysql-oracle -p 3306:3306 -e MYSQL_ROOT_PASSWORD=Theluong1503 -d mysql:oracle`
 ### Start MongoDB in network
-`docker run --network <network_name> --name <image_name> -p <connection_port> -e MONGODB_ROOT_USERNAME:<username> -e MONGODB_ROOT_PASSWORD=<password> mysql:<tag>`
+`docker run -d --network <network_name> --name <image_name> -p <connection_port> -e MONGODB_ROOT_USERNAME:<username> -e MONGODB_ROOT_PASSWORD=<password> mysql:<tag>`
 #### Example:
-`docker run --network identity-network --name mongo -p 27017:27017 -e MONGODB_ROOT_USERNAME:root -e MONGODB_ROOT_PASSWORD=Theluong1503  mongo:latest`
+`docker run -d --network identity-network --name mongo -p 27017:27017 -e MONGODB_ROOT_USERNAME:root -e MONGODB_ROOT_PASSWORD=Theluong1503  mongo:latest`
 ### Run your application in network
 `docker run --name <image_name> --network <network_name> -p <connection_port> -e DBMS_CONNECTION=jdbc:mysql://<database_image_name>:<connection_port>/<schema_name> <docker_hub_account>/<image_name>:<image_version>`
 #### Example:
