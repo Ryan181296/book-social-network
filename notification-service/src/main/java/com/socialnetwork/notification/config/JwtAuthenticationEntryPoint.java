@@ -1,8 +1,8 @@
-package com.socialnetwork.identity.config;
+package com.socialnetwork.notification.config;
 
-import com.socialnetwork.identity.dto.response.ResponseObject;
-import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.mapper.JsonMapper;
+import com.socialnetwork.notification.dto.response.ResponseObject;
+import com.socialnetwork.notification.exception.ErrorCode;
+import com.socialnetwork.notification.mapper.JsonMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         var errorCode = ErrorCode.UNAUTHENTICATED;
 
-        response.setStatus(errorCode.getHttpStatusCode().value());
+        response.setStatus(errorCode.getCode());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         var responseJson = JsonMapper.toJson(ResponseObject.builder()

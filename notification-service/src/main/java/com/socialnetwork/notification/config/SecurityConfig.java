@@ -1,4 +1,4 @@
-package com.socialnetwork.profile.config;
+package com.socialnetwork.notification.config;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,20 +27,18 @@ public class SecurityConfig {
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    CustomAccessDeniedHandler customAccessDeniedHandler;
+    CustomerAccessDeniedHandler customerAccessDeniedHandler;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers("/v1/internal-profile").permitAll()
-                        .requestMatchers("v1/**").authenticated());
+                request.requestMatchers("/v1/**").authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                        .accessDeniedHandler(customAccessDeniedHandler)
-        );
+                        .accessDeniedHandler(customerAccessDeniedHandler));
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();

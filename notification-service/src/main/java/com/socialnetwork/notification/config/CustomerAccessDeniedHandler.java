@@ -1,8 +1,8 @@
-package com.socialnetwork.identity.config;
+package com.socialnetwork.notification.config;
 
-import com.socialnetwork.identity.dto.response.ResponseObject;
-import com.socialnetwork.identity.exception.ErrorCode;
-import com.socialnetwork.identity.mapper.JsonMapper;
+import com.socialnetwork.notification.dto.response.ResponseObject;
+import com.socialnetwork.notification.exception.ErrorCode;
+import com.socialnetwork.notification.mapper.JsonMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,15 +15,16 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Component
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomerAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         var errorCode = ErrorCode.UNAUTHORIZED;
 
-        response.setStatus(errorCode.getHttpStatusCode().value());
+        response.setStatus(errorCode.getCode());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        var responseJson = JsonMapper.toJson(ResponseObject.builder()
+        var responseJson = JsonMapper.toJson(ResponseObject
+                .builder()
                 .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build());

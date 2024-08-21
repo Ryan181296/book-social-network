@@ -1,7 +1,7 @@
 package com.socialnetwork.notification.repository.client;
 
-import com.socialnetwork.notification.dto.request.BrevoEmailRequestDTO;
-import com.socialnetwork.notification.dto.response.BrevoEmailResponseDTO;
+import com.socialnetwork.notification.dto.request.EmailRequestDTO;
+import com.socialnetwork.notification.dto.response.EmailResponseDTO;
 import com.socialnetwork.notification.exception.FeignErrorDecoder;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestHeader;
         configuration = {FeignErrorDecoder.class})
 public interface BrevoEmailClient {
     @PostMapping(value = "/v3/smtp/email", produces = {MediaType.APPLICATION_JSON_VALUE})
-    BrevoEmailResponseDTO sendEmail(@RequestHeader("api-key") String apiKey, @RequestBody BrevoEmailRequestDTO requestDTO);
+    EmailResponseDTO sendEmail(@RequestHeader("api-key") String apiKey, @RequestBody EmailRequestDTO requestDTO);
 }
