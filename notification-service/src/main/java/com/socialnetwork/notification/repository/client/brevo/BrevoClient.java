@@ -1,4 +1,4 @@
-package com.socialnetwork.notification.repository.client;
+package com.socialnetwork.notification.repository.client.brevo;
 
 import com.socialnetwork.notification.dto.request.EmailRequestDTO;
 import com.socialnetwork.notification.dto.response.EmailResponseDTO;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(
-        name = "${clients.brevo.names.email}",
+        name = "brevo-client",
         url = "${clients.brevo.url}",
         configuration = {FeignErrorDecoder.class})
-public interface BrevoEmailClient {
+public interface BrevoClient {
     @PostMapping(value = "/v3/smtp/email", produces = {MediaType.APPLICATION_JSON_VALUE})
     EmailResponseDTO sendEmail(@RequestHeader("api-key") String apiKey, @RequestBody EmailRequestDTO requestDTO);
 }

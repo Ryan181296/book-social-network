@@ -1,26 +1,14 @@
 package com.socialnetwork.identity.mapper;
 
-import com.socialnetwork.identity.adapter.LocalDateAdapter;
-import com.socialnetwork.identity.adapter.LocalDateTimeAdapter;
-import com.socialnetwork.identity.adapter.ZonedDateTimeAdapter;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JsonMapper {
-    static Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
-            .create();
+    static Gson gson = new Gson();
 
     public static <T> T map(Object obj, Class<T> clazz) {
         try {

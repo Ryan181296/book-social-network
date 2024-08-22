@@ -9,6 +9,18 @@ spring:
   data:
     mongodb:
       uri: mongodb://root:Theluong1503@localhost:27017/notification-service?authSource=admin
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: notification_group
+      auto-offset-reset: earliest
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.JsonDeserializer
+
+kafka:
+  consumer:
+    topics:
+      notification: notification_topic
 
 clients:
   brevo:
@@ -16,3 +28,7 @@ clients:
     api-key: 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
     names:
       email: email-client
+  telegram:
+    url: https://api.telegram.org/bot7461951975:AAHlNdSVZiMTLO5tKkY9xdpa_bRbmdpSuLk
+    chat-id: 6975395468
+    max-message-length: 4096

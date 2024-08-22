@@ -18,7 +18,9 @@ public enum ErrorCode {
     USER_EXISTED(1000, "User existed", HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "Permission denied", HttpStatus.FORBIDDEN),
-    SEND_EMAIL_ERROR(2000, "Send email error", HttpStatus.INTERNAL_SERVER_ERROR);
+    SEND_EMAIL_ERROR(2000, "Send email error", HttpStatus.INTERNAL_SERVER_ERROR),
+    SEND_MESSAGE_TO_TELEGRAM_ERROR(2001, "Send message to telegram chatbot error", HttpStatus.INTERNAL_SERVER_ERROR),
+    TELEGRAM_MESSAGE_INVALID(2002, "Telegram message invalid", HttpStatus.BAD_REQUEST);
 
     int code;
     String message;

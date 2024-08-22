@@ -11,6 +11,7 @@ import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.RoleRepository;
 import com.socialnetwork.identity.repository.UserRepository;
 import com.socialnetwork.identity.repository.client.ProfileClient;
+import com.socialnetwork.identity.worker.kafka.producer.NotificationProducer;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -38,6 +39,10 @@ public class UserService {
     @Autowired
     ProfileClient profileClient;
 
+    @Autowired
+    NotificationProducer notificationProducer;
+
+
     public CommonUserResponseDTO create(UserCreationRequestDTO requestDTO) {
         var userEntity = JsonMapper.map(requestDTO, UserEntity.class);
         if (Objects.isNull(userEntity)) {
@@ -63,7 +68,7 @@ public class UserService {
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.USER_EXISTED);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.CREATE_USER_PROFILE_ERROR);
         }
     }

@@ -13,10 +13,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  servlet:
-    multipart:
-      max-file-size: 512MB
-      max-request-size: 512MB
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+kafka:
+  producer:
+    topics:
+      notification: notification_topic
 
 jwt:
   secret-key: ${SECRET_KEY:uz85j9Ka41OK2jQEY0z8C6cC0hsHzRo1jMyfvYY0iU9MkwO2xdyU+T7GkFI87lji}
@@ -25,4 +31,3 @@ clients:
   profile:
     host: ${PROFILE_HOST:http://localhost:8081/user-profile}
     create-profile-path: /v1/internal-profile
-

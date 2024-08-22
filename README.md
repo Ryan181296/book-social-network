@@ -46,6 +46,10 @@ https://kafka.apache.org/documentation/#configuration
 `docker run -d --network <network_name> --name <image_name> -p <connection_port> -e MONGODB_ROOT_USERNAME:<username> -e MONGODB_ROOT_PASSWORD=<password> mysql:<tag>`
 #### Example:
 `docker run -d --network identity-network --name mongo -p 27017:27017 -e MONGODB_ROOT_USERNAME:root -e MONGODB_ROOT_PASSWORD=Theluong1503  mongo:latest`
+### Start `Kafka` with Docker-compose
+`docker-compose -f <filename> up -d`
+#### Example:
+`docker-compose -f docker-compose.bitnami-kraft.yml up -d`
 ### Run your application in network
 `docker run --name <image_name> --network <network_name> -p <connection_port> -e DBMS_CONNECTION=jdbc:mysql://<database_image_name>:<connection_port>/<schema_name> <docker_hub_account>/<image_name>:<image_version>`
 #### Example:

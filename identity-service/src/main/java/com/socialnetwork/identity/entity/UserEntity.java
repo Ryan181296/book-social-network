@@ -1,9 +1,11 @@
 package com.socialnetwork.identity.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity(name = "user")
@@ -23,6 +25,10 @@ public class UserEntity {
     String password;
     String firstName;
     String lastName;
+    String email;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate dob;
 
     @ManyToMany
     @JoinTable(

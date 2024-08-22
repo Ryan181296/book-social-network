@@ -1,5 +1,6 @@
 package com.socialnetwork.identity.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.socialnetwork.identity.validator.DobConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,6 +30,7 @@ public class UserCreationRequestDTO {
     String lastName;
 
     @DobConstraint(min = 18, message = "BIRTHDAY_INVALID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate dob;
 
     Set<String> roleNames;

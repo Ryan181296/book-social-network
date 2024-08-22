@@ -1,10 +1,9 @@
 package com.socialnetwork.notification.service;
 
-import com.socialnetwork.notification.dto.request.EmailRequestDTO;
-import com.socialnetwork.notification.dto.response.EmailResponseDTO;
+import com.socialnetwork.notification.dto.response.TelegramMessageResponseDTO;
 import com.socialnetwork.notification.exception.CustomException;
 import com.socialnetwork.notification.exception.ErrorCode;
-import com.socialnetwork.notification.repository.client.brevo.BrevoClient;
+import com.socialnetwork.notification.repository.client.telegram.TelegramClient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,20 +17,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class EmailService {
+public class TelegramService {
     @Autowired
-    BrevoClient brevoEmailClient;
+    TelegramClient telegramClient;
 
     @NonFinal
-    @Value("${clients.brevo.api-key}")
-    String brevoApiKey;
+    @Value("${clients.telegram.chat-id}")
+    String chatId;
 
-    public EmailResponseDTO sendEmail(EmailRequestDTO requestDTO) {
+    public TelegramMessageResponseDTO sendMessage(String message) {
         try {
-            return brevoEmailClient.sendEmail(brevoApiKey, requestDTO);
+            var response = telegramClient.sendMessage(chatId, message);
+            if (!response.getOk()) {
+                throw new CustomException(ErrorCode.SEND_MESSAGE_TO_TELEGRAM_ERROR);
+            }
+            return response.getResult();
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new CustomException(ErrorCode.SEND_EMAIL_ERROR);
+            throw new CustomException(ErrorCode.SEND_MESSAGE_TO_TELEGRAM_ERROR);
         }
     }
 }

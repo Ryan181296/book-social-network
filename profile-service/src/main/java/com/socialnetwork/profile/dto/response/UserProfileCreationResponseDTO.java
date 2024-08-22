@@ -1,5 +1,6 @@
 package com.socialnetwork.profile.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,6 +17,9 @@ public class UserProfileCreationResponseDTO {
     String userId;
     String firstName;
     String lastName;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     LocalDate dob;
+    String email;
     String address;
 }
