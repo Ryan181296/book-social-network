@@ -39,21 +39,25 @@ public class NotificationConsumer {
     @KafkaListener(topics = "${kafka.consumer.topics.notification}")
     public void notificationListener(NotificationDTO notificationDTO) {
         log.info("Receive data <- {}", notificationDTO);
-        final var channel = NotificationChannel.of(notificationDTO.getChannel().toUpperCase());
-        switch (channel) {
-            case EMAIL -> emailService.sendEmail(EmailRequestDTO.builder()
-                    .sender(EmailRequestDTO.Sender.builder()
-                            .email(senderEmail)
-                            .name(senderName)
-                            .build())
-                    .to(List.of(EmailRequestDTO.Recipient.builder()
-                            .email(notificationDTO.getRecipient())
-                            .build()))
-                    .subject(notificationDTO.getSubject())
-                    .htmlContent(notificationDTO.getBody())
-                    .build());
+        try {
+            final var channel = NotificationChannel.of(notificationDTO.getChannel().toUpperCase());
+            switch (channel) {
+                case EMAIL -> emailService.sendEmail(EmailRequestDTO.builder()
+                        .sender(EmailRequestDTO.Sender.builder()
+                                .email(senderEmail)
+                                .name(senderName)
+                                .build())
+                        .to(List.of(EmailRequestDTO.Recipient.builder()
+                                .email(notificationDTO.getRecipient())
+                                .build()))
+                        .subject(notificationDTO.getSubject())
+                        .htmlContent(notificationDTO.getBody())
+                        .build());
 
-            case TELEGRAM -> telegramService.sendMessage(notificationDTO.getBody());
+                case TELEGRAM -> telegramService.sendMessage(notificationDTO.getBody());
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 }
