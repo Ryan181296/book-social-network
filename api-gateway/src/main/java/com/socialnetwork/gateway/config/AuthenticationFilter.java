@@ -6,7 +6,6 @@ import com.socialnetwork.gateway.service.IdentityService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -33,10 +32,10 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     @Autowired
     IdentityService identityService;
 
-    @NonFinal
     static final String[] PUBLIC_ENDPOINTS = {
             "/identity/api/v1/auth/login",
-            "/identity/api/v1/user/registration"
+            "/identity/api/v1/user/registration",
+            "/notification/api/v1/chatbot/send-message"
     };
 
     @Override

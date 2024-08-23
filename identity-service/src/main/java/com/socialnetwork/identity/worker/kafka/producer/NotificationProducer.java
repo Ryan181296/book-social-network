@@ -1,5 +1,6 @@
 package com.socialnetwork.identity.worker.kafka.producer;
 
+import com.socialnetwork.event.dto.NotificationDTO;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class NotificationProducer {
@@ -21,10 +22,11 @@ public class NotificationProducer {
     String notificationTopic;
 
     @Autowired
-    KafkaTemplate<String, String> kafkaTemplate;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
     @Async
-    public void sendData() {
-        kafkaTemplate.send(notificationTopic, "notification");
+    public void send(NotificationDTO notificationDTO) {
+        log.info("Send data -> {}", notificationDTO);
+        kafkaTemplate.send(notificationTopic, notificationDTO);
     }
 }

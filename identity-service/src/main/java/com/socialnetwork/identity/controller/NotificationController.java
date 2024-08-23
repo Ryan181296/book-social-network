@@ -1,5 +1,6 @@
 package com.socialnetwork.identity.controller;
 
+import com.socialnetwork.event.dto.NotificationDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
 import com.socialnetwork.identity.worker.kafka.producer.NotificationProducer;
 import lombok.AccessLevel;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +21,8 @@ public class NotificationController {
     NotificationProducer notificationProducer;
 
     @PostMapping
-    public ResponseObject<?> send() {
-        notificationProducer.sendData();
-        return ResponseObject.builder()
-                .build();
+    public ResponseObject<?> send(@RequestBody NotificationDTO notificationDTO) {
+        notificationProducer.send(notificationDTO);
+        return ResponseObject.builder().build();
     }
 }

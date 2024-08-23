@@ -15,7 +15,9 @@ spring:
       group-id: notification_group
       auto-offset-reset: earliest
       key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.apache.kafka.common.serialization.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 
 kafka:
   consumer:
@@ -26,9 +28,6 @@ clients:
   brevo:
     url: https://api.brevo.com
     api-key: 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
-    names:
-      email: email-client
   telegram:
     url: https://api.telegram.org/bot7461951975:AAHlNdSVZiMTLO5tKkY9xdpa_bRbmdpSuLk
     chat-id: 6975395468
-    max-message-length: 4096

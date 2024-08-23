@@ -1,5 +1,6 @@
 package com.socialnetwork.notification.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TelegramMessageResponseDTO {
     @SerializedName("message_id")
     String messageId;
@@ -22,6 +24,7 @@ public class TelegramMessageResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Receiver {
         String id;
 
@@ -38,6 +41,7 @@ public class TelegramMessageResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Sender {
         String id;
 
