@@ -26,8 +26,10 @@ kafka:
 
 clients:
   brevo:
+    name: CVS GROUP
+    email: buitheluong.it@gmail.com
     url: https://api.brevo.com
-    api-key: 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
+    api-key: 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
   telegram:
     url: https://api.telegram.org/bot7461951975:AAHlNdSVZiMTLO5tKkY9xdpa_bRbmdpSuLk
     chat-id: 6975395468

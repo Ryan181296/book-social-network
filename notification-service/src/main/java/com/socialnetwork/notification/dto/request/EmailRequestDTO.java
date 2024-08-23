@@ -3,6 +3,8 @@ package com.socialnetwork.notification.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -11,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmailRequestDTO {
     Sender sender;
-    Recipient[] to;
+    List<Recipient> to;
     String htmlContent;
     String subject;
 
@@ -19,6 +21,7 @@ public class EmailRequestDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Sender {
         String email;
@@ -29,6 +32,7 @@ public class EmailRequestDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Recipient {
         String email;
