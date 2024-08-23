@@ -55,6 +55,12 @@ https://kafka.apache.org/documentation/#configuration
 #### Example:
 `docker run --name identity-service --network identity-network -p 8080:8080 -e DBMS_CONNECTION=jdbc:mysql://mysql-oracle:3306/identity_service loung0303/identity-service:0.0.1`
 
+## Brevo SMTP
+https://app.brevo.com/
+
+## Telegram chatbot
+https://core.telegram.org/bots/api
+
 ## Deploy your application to `AWS`
 ### 1. Visit `Console Home`
 https://ap-northeast-1.console.aws.amazon.com/console/home?nc2=h_ct&region=ap-northeast-1&src=header-signin#
