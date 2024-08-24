@@ -15,4 +15,5 @@ public class PostCreationResponseDTO {
     String content;
     Date createdDate;
     Date modifiedDate;
+    String createdDateText;
 }

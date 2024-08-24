@@ -6,6 +6,7 @@ import com.socialnetwork.post.dto.response.PostCreationResponseDTO;
 import com.socialnetwork.post.entity.PostEntity;
 import com.socialnetwork.post.mapper.JsonMapper;
 import com.socialnetwork.post.repository.PostRepository;
+import com.socialnetwork.post.util.PostDateFormatUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -51,7 +52,13 @@ public class PostService {
                 .totalItems(pageData.getTotalElements())
                 .offset(offset)
                 .limit(limit)
-                .data(pageData.getContent().stream().map(postEntity -> JsonMapper.map(postEntity, PostCreationResponseDTO.class)).toList())
+                .data(pageData.getContent().stream().map(postEntity -> {
+                    var responseDTO = JsonMapper.map(postEntity, PostCreationResponseDTO.class);
+                    if (responseDTO != null) {
+                        responseDTO.setCreatedDateText(PostDateFormatUtil.format(postEntity.getCreatedDate()));
+                    }
+                    return responseDTO;
+                }).toList())
                 .build();
     }
 }
