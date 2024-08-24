@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,23 +47,22 @@ public class PostService {
         var pageable = PageRequest.of(offset - 1, limit, sort);
 
         var pageData = postRepository.findAllUserByUserId(userId, pageable);
+        List<PostCreationResponseDTO> data = pageData.getContent().stream().map(this::mapToPostResponseDTO).toList();
 
         return PageResponse.<PostCreationResponseDTO>builder()
                 .totalPages(pageData.getTotalPages())
                 .totalItems(pageData.getTotalElements())
                 .offset(offset)
                 .limit(limit)
-                .data(mapToPostResponseDTO(pageData))
+                .data(data)
                 .build();
     }
 
-    private List<PostCreationResponseDTO> mapToPostResponseDTO(Page<PostEntity> pageData) {
-        return pageData.getContent().stream().map(postEntity -> {
-            var responseDTO = JsonMapper.map(postEntity, PostCreationResponseDTO.class);
-            if (responseDTO != null) {
-                responseDTO.setCreatedDateText(PostDateFormatUtil.format(postEntity.getCreatedDate()));
-            }
-            return responseDTO;
-        }).toList();
+    private PostCreationResponseDTO mapToPostResponseDTO(PostEntity postEntity) {
+        var responseDTO = JsonMapper.map(postEntity, PostCreationResponseDTO.class);
+        if (responseDTO != null) {
+            responseDTO.setCreatedDateText(PostDateFormatUtil.format(postEntity.getCreatedDate()));
+        }
+        return responseDTO;
     }
 }
