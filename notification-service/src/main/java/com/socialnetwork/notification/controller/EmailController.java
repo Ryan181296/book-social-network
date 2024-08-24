@@ -26,7 +26,7 @@ public class EmailController {
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<EmailResponseDTO> sendEmail(@Valid @RequestBody EmailRequestDTO requestDTO) {
         return ResponseObject.<EmailResponseDTO>builder()
-                .data(emailService.sendEmail(requestDTO))
+                .result(emailService.sendEmail(requestDTO))
                 .build();
     }
 }

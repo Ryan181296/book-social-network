@@ -21,7 +21,7 @@ public class InternalUserProfileController {
     @PostMapping
     public ResponseObject<UserProfileCreationResponseDTO> create(@RequestBody UserProfileCreationRequestDTO requestDTO) {
         return ResponseObject.<UserProfileCreationResponseDTO>builder()
-                .data(userProfileService.create(requestDTO))
+                .result(userProfileService.create(requestDTO))
                 .build();
     }
 }

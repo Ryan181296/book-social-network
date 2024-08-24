@@ -15,9 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -44,7 +41,6 @@ class UserServiceTest {
         requestDTO = UserCreationRequestDTO.builder()
                 .username("johnydang")
                 .password("Theluong1503")
-                .dob(LocalDate.of(1990, 1, 1))
                 .build();
 
         userEntity = UserEntity.builder()

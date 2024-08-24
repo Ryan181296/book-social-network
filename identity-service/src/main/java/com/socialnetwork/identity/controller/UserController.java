@@ -24,42 +24,42 @@ public class UserController {
     @PostMapping(value = "/registration", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> create(@Valid @RequestBody UserCreationRequestDTO requestDTO) {
         return ResponseObject.<CommonUserResponseDTO>builder()
-                .data(userService.create(requestDTO))
+                .result(userService.create(requestDTO))
                 .build();
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> getProfile() {
         return ResponseObject.<CommonUserResponseDTO>builder()
-                .data(userService.getProfile())
+                .result(userService.getProfile())
                 .build();
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> update(@RequestBody UserUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonUserResponseDTO>builder()
-                .data(userService.update(requestDTO))
+                .result(userService.update(requestDTO))
                 .build();
     }
 
     @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> getById(@PathVariable("userId") String userId) {
         return ResponseObject.<CommonUserResponseDTO>builder()
-                .data(userService.getById(userId))
+                .result(userService.getById(userId))
                 .build();
     }
 
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO[]> getAll() {
         return ResponseObject.<CommonUserResponseDTO[]>builder()
-                .data(userService.getAll())
+                .result(userService.getAll())
                 .build();
     }
 
     @PutMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonUserResponseDTO> updateById(@PathVariable("userId") String userId, @RequestBody UserUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonUserResponseDTO>builder()
-                .data(userService.updateById(userId, requestDTO))
+                .result(userService.updateById(userId, requestDTO))
                 .build();
     }
 }

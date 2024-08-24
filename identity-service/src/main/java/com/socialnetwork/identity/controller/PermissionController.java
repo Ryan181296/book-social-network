@@ -24,21 +24,21 @@ public class PermissionController {
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO> create(@Valid @RequestBody PermissionCreateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
-                .data(permissionService.create(requestDTO))
+                .result(permissionService.create(requestDTO))
                 .build();
     }
 
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO[]> getAll() {
         return ResponseObject.<CommonPermissionResponseDTO[]>builder()
-                .data(permissionService.getAll())
+                .result(permissionService.getAll())
                 .build();
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonPermissionResponseDTO> update(@Valid @RequestBody PermissionUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonPermissionResponseDTO>builder()
-                .data(permissionService.update(requestDTO))
+                .result(permissionService.update(requestDTO))
                 .build();
     }
 

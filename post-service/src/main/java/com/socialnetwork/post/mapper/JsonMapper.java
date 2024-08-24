@@ -7,9 +7,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JsonMapper {
-    static Gson gson = new GsonBuilder().create();
+    static final Gson gson = new GsonBuilder().create();
 
     public static <T> T map(Object obj, Class<T> clazz) {
         try {

@@ -26,7 +26,7 @@ public class ChatbotController {
     @PostMapping(value = "/send-message", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<TelegramMessageResponseDTO> sendMessage(@Valid @RequestBody TelegramMessageRequestDTO requestDTO) {
         return ResponseObject.<TelegramMessageResponseDTO>builder()
-                .data(telegramService.sendMessage(requestDTO.getMessage()))
+                .result(telegramService.sendMessage(requestDTO.getMessage()))
                 .build();
     }
 }

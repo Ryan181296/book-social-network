@@ -24,21 +24,21 @@ public class RoleController {
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonRoleResponseDTO> create(@Valid @RequestBody RoleCreateRequestDTO requestDTO) {
         return ResponseObject.<CommonRoleResponseDTO>builder()
-                .data(roleService.create(requestDTO))
+                .result(roleService.create(requestDTO))
                 .build();
     }
 
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonRoleResponseDTO[]> getAll() {
         return ResponseObject.<CommonRoleResponseDTO[]>builder()
-                .data(roleService.getAll())
+                .result(roleService.getAll())
                 .build();
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<CommonRoleResponseDTO> update(@Valid @RequestBody RoleUpdateRequestDTO requestDTO) {
         return ResponseObject.<CommonRoleResponseDTO>builder()
-                .data(roleService.update(requestDTO))
+                .result(roleService.update(requestDTO))
                 .build();
     }
 

@@ -7,10 +7,11 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DobValidator implements ConstraintValidator<DobConstraint, LocalDate> {
+public class DobValidator implements ConstraintValidator<DobConstraint, Date> {
     int min;
 
     @Override
@@ -20,11 +21,11 @@ public class DobValidator implements ConstraintValidator<DobConstraint, LocalDat
     }
 
     @Override
-    public boolean isValid(LocalDate localDate, ConstraintValidatorContext constraintValidatorContext) {
-        if (Objects.isNull(localDate))
+    public boolean isValid(Date date, ConstraintValidatorContext constraintValidatorContext) {
+        if (Objects.isNull(date))
             return true;
 
-        var years = ChronoUnit.YEARS.between(localDate, LocalDate.now());
+        var years = ChronoUnit.YEARS.between(date.toInstant(), LocalDate.now());
         return years >= min;
     }
 }

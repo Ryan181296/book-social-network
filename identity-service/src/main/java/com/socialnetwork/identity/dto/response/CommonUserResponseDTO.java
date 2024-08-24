@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -20,6 +20,6 @@ public class CommonUserResponseDTO {
     String username;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    LocalDate dob;
+    Date dob;
     Set<CommonRoleResponseDTO> roles;
 }

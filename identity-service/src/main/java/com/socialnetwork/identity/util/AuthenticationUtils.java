@@ -1,12 +1,10 @@
 package com.socialnetwork.identity.util;
 
-import com.socialnetwork.identity.entity.UserEntity;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.socialnetwork.identity.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
@@ -20,7 +18,7 @@ public class AuthenticationUtils {
     public static String generateAccessToken(UserEntity userEntity, String secretKey) {
         var header = new JWSHeader(JWSAlgorithm.HS512);
         var jwtClaimSet = new JWTClaimsSet.Builder()
-                .subject(userEntity.getUsername())
+                .subject(userEntity.getId())
                 .claim("scope", buildScope(userEntity))
                 .jwtID(UUID.randomUUID().toString())
                 .issuer("messenger.com")

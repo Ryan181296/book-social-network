@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ public class UserProfileCreationRequestDTO {
     String lastName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
-    LocalDate dob;
+    Date dob;
     String email;
     String address;
 }

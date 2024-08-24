@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -31,7 +31,7 @@ public class UserCreationRequestDTO {
 
     @DobConstraint(min = 18, message = "BIRTHDAY_INVALID")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    LocalDate dob;
+    Date dob;
 
     Set<String> roleNames;
 }

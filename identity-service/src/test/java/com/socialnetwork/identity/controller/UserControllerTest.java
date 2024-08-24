@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 import static org.mockito.Mockito.when;
@@ -43,7 +42,6 @@ class UserControllerTest {
         requestDTO = UserCreationRequestDTO.builder()
                 .username("johnydang")
                 .password("Theluong1503")
-                .dob(LocalDate.of(1990, 1, 1))
                 .build();
 
         responseDTO = CommonUserResponseDTO.builder()

@@ -15,5 +15,5 @@ public class ResponseObject<T> {
     @Builder.Default
     int code = 200;
     String message;
-    T data;
+    T result;
 }

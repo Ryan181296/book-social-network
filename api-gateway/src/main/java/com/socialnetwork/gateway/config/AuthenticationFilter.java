@@ -50,7 +50,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
         }
         var token = authHeaders.getFirst().replace("Bearer ", "");
         return identityService.verifyToken(token).flatMap(response -> {
-            if (response.getData().getAuthenticated()) {
+            if (response.getResult().getAuthenticated()) {
                 return chain.filter(exchange);
             } else {
                 return unauthenticated(exchange.getResponse());

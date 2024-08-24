@@ -30,7 +30,7 @@ public class AuthenticationController {
     @PostMapping(value = "/login", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<AuthenticationResponseDTO> login(@RequestBody AuthenticationRequestDTO requestDTO) {
         return ResponseObject.<AuthenticationResponseDTO>builder()
-                .data(authenticationService.login(requestDTO))
+                .result(authenticationService.login(requestDTO))
                 .build();
     }
 
@@ -44,14 +44,14 @@ public class AuthenticationController {
     @PostMapping(value = "/refresh-token", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<AuthenticationResponseDTO> refreshToken(@RequestHeader("Authorization") String accessToken) throws ParseException {
         return ResponseObject.<AuthenticationResponseDTO>builder()
-                .data(authenticationService.refreshToken(accessToken))
+                .result(authenticationService.refreshToken(accessToken))
                 .build();
     }
 
     @PostMapping(value = "/verify-token", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<TokenVerificationResponseDTO> verifyToken(@RequestBody TokenVerificationRequestDTO requestDTO) {
         return ResponseObject.<TokenVerificationResponseDTO>builder()
-                .data(authenticationService.verifyToken(requestDTO))
+                .result(authenticationService.verifyToken(requestDTO))
                 .build();
     }
 }

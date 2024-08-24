@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity(name = "user")
@@ -28,7 +28,7 @@ public class UserEntity {
     String email;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    LocalDate dob;
+    Date dob;
 
     @ManyToMany
     @JoinTable(
