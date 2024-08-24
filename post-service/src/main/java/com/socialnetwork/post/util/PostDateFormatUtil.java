@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostDateFormatUtil {
-    static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     static final Map<Long, Function<Date, String>> strategyMap = new LinkedHashMap<>();
 
     static {
@@ -25,7 +25,7 @@ public class PostDateFormatUtil {
 
     public static String format(Date date) {
         var seconds = ChronoUnit.SECONDS.between(date.toInstant(), Instant.now());
-        var entry = strategyMap.entrySet().stream().filter(s -> seconds < s.getKey()).findFirst();
+        var entry = strategyMap.entrySet().stream().filter(e -> seconds < e.getKey()).findFirst();
 
         return entry.isPresent() ? entry.get().getValue().apply(date) : "";
     }
@@ -41,11 +41,11 @@ public class PostDateFormatUtil {
     }
 
     private static String formatInHours(Date date) {
-        var hours = ChronoUnit.HOURS.between(date.toInstant(), Instant.now());
-        return hours + " hours";
+        var minutes = ChronoUnit.MINUTES.between(date.toInstant(), Instant.now());
+        return minutes + " hours";
     }
 
     private static String formatDate(Date date) {
-        return dateFormat.format(date);
+        return simpleDateFormat.format(date);
     }
 }

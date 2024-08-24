@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -52,13 +54,17 @@ public class PostService {
                 .totalItems(pageData.getTotalElements())
                 .offset(offset)
                 .limit(limit)
-                .data(pageData.getContent().stream().map(postEntity -> {
-                    var responseDTO = JsonMapper.map(postEntity, PostCreationResponseDTO.class);
-                    if (responseDTO != null) {
-                        responseDTO.setCreatedDateText(PostDateFormatUtil.format(postEntity.getCreatedDate()));
-                    }
-                    return responseDTO;
-                }).toList())
+                .data(mapToPostResponseDTO(pageData))
                 .build();
+    }
+
+    private List<PostCreationResponseDTO> mapToPostResponseDTO(Page<PostEntity> pageData) {
+        return pageData.getContent().stream().map(postEntity -> {
+            var responseDTO = JsonMapper.map(postEntity, PostCreationResponseDTO.class);
+            if (responseDTO != null) {
+                responseDTO.setCreatedDateText(PostDateFormatUtil.format(postEntity.getCreatedDate()));
+            }
+            return responseDTO;
+        }).toList();
     }
 }
