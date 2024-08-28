@@ -1,14 +1,18 @@
 package com.socialnetwork.identity.service;
 
 import com.socialnetwork.identity.dto.request.AuthenticationRequestDTO;
+import com.socialnetwork.identity.dto.request.GoogleAuthenticationRequestDTO;
+import com.socialnetwork.identity.dto.request.OutboundAuthenticationRequestDTO;
 import com.socialnetwork.identity.dto.request.TokenVerificationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.dto.response.TokenVerificationResponseDTO;
 import com.socialnetwork.identity.entity.InvalidatedTokenEntity;
+import com.socialnetwork.identity.enums.GoogleGrantType;
 import com.socialnetwork.identity.exception.ErrorCode;
 import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.repository.InvalidatedTokenRepository;
 import com.socialnetwork.identity.repository.UserRepository;
+import com.socialnetwork.identity.repository.client.GoogleClient;
 import com.socialnetwork.identity.util.AuthenticationUtils;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -31,6 +35,9 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     @Autowired
+    GoogleClient googleClient;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -39,6 +46,14 @@ public class AuthenticationService {
     @NonFinal
     @Value("${jwt.secret-key}")
     String secretKey;
+
+    @NonFinal
+    @Value("${clients.google.client-secret}")
+    String googleClientSecret;
+
+    @NonFinal
+    @Value("${clients.google.client-id}")
+    String googleClientId;
 
     static final String ACCESS_TOKEN_TYPE = "Bearer";
 
@@ -109,5 +124,22 @@ public class AuthenticationService {
                 .accessToken(newAccessToken)
                 .accessTokenType(ACCESS_TOKEN_TYPE)
                 .build();
+    }
+
+    public AuthenticationResponseDTO loginWithGoogle(OutboundAuthenticationRequestDTO requestDTO) {
+        try {
+            var response = googleClient.login(GoogleAuthenticationRequestDTO.builder()
+                    .code(requestDTO.getAuthorizationCode())
+                    .clientId(googleClientId)
+                    .clientSecret(googleClientSecret)
+                    .grantType(GoogleGrantType.AUTHORIZATION_CODE.getValue())
+                    .build());
+
+            return AuthenticationResponseDTO.builder()
+                    .accessToken(response.getAccessToken())
+                    .build();
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.EXCHANGE_GOOGLE_AUTHORIZATION_CODE_ERROR);
+        }
     }
 }

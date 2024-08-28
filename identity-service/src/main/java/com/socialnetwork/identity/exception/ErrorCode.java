@@ -31,7 +31,8 @@ public enum ErrorCode {
     ROLE_NAME_INVALID(1012, "Role name invalid", HttpStatus.BAD_REQUEST),
     FIRST_NAME_INVALID(1113, "First name invalid", HttpStatus.BAD_REQUEST),
     LAST_NAME_INVALID(1114, "Last name invalid", HttpStatus.BAD_REQUEST),
-    CREATE_USER_PROFILE_ERROR(1115, "Create user profile error", HttpStatus.INTERNAL_SERVER_ERROR);
+    CREATE_USER_PROFILE_ERROR(1115, "Create user profile error", HttpStatus.INTERNAL_SERVER_ERROR),
+    EXCHANGE_GOOGLE_AUTHORIZATION_CODE_ERROR(1116, "Exchange Google authorization code error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     int code;
     String message;

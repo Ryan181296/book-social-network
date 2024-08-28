@@ -1,6 +1,7 @@
 package com.socialnetwork.identity.controller;
 
 import com.socialnetwork.identity.dto.request.AuthenticationRequestDTO;
+import com.socialnetwork.identity.dto.request.OutboundAuthenticationRequestDTO;
 import com.socialnetwork.identity.dto.request.TokenVerificationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.dto.response.ResponseObject;
@@ -26,6 +27,13 @@ public class AuthenticationController {
 
     @Autowired
     InvalidatedTokenService invalidatedTokenService;
+
+    @PostMapping(value = "/google", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseObject<AuthenticationResponseDTO> loginWithGoogle(@RequestBody OutboundAuthenticationRequestDTO requestDTO) {
+        return ResponseObject.<AuthenticationResponseDTO>builder()
+                .result(authenticationService.loginWithGoogle(requestDTO))
+                .build();
+    }
 
     @PostMapping(value = "/login", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseObject<AuthenticationResponseDTO> login(@RequestBody AuthenticationRequestDTO requestDTO) {
