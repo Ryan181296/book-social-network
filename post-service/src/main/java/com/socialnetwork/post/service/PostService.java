@@ -38,22 +38,22 @@ public class PostService {
                 .build();
 
         var postCreatedEntity = postRepository.save(postEntity);
-        return JsonMapper.map(postCreatedEntity, PostCreationResponseDTO.class);
+        return mapToPostResponseDTO(postCreatedEntity);
     }
 
-    public PageResponse<PostCreationResponseDTO> getPosts(int limit, int offset) {
+    public PageResponse<PostCreationResponseDTO> getPosts(String searchText, int pageSize, int pageNumber) {
         var userId = SecurityContextHolder.getContext().getAuthentication().getName();
         var sort = Sort.by("createdDate").descending();
-        var pageable = PageRequest.of(offset - 1, limit, sort);
+        var pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
 
-        var pageData = postRepository.findAllUserByUserId(userId, pageable);
+        var pageData = postRepository.findPostsByUserId(userId, searchText, pageable);
         List<PostCreationResponseDTO> data = pageData.getContent().stream().map(this::mapToPostResponseDTO).toList();
 
         return PageResponse.<PostCreationResponseDTO>builder()
                 .totalPages(pageData.getTotalPages())
                 .totalItems(pageData.getTotalElements())
-                .offset(offset)
-                .limit(limit)
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
                 .data(data)
                 .build();
     }

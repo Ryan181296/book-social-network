@@ -15,8 +15,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PageResponse<T> {
-    int limit;
-    int offset;
+    int pageSize;
+    int pageNumber;
     int totalPages;
     long totalItems;
 

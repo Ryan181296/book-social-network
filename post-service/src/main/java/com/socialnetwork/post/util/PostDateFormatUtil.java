@@ -6,9 +6,7 @@ import lombok.experimental.FieldDefaults;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -25,7 +23,7 @@ public class PostDateFormatUtil {
 
     public static String format(Date date) {
         var seconds = ChronoUnit.SECONDS.between(date.toInstant(), Instant.now());
-        var entry = strategyMap.entrySet().stream().filter(e -> seconds < e.getKey()).findFirst();
+        var entry = strategyMap.entrySet().stream().filter(e -> seconds <= e.getKey()).findFirst();
 
         return entry.isPresent() ? entry.get().getValue().apply(date) : "";
     }

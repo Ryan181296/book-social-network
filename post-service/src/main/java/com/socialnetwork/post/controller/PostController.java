@@ -28,10 +28,11 @@ public class PostController {
     }
 
     @GetMapping(value = "/my-posts")
-    public ResponseObject<PageResponse<PostCreationResponseDTO>> getMyPosts(@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
-                                                                          @RequestParam(value = "offset", required = false, defaultValue = "1") int offset) {
+    public ResponseObject<PageResponse<PostCreationResponseDTO>> getMyPosts(@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                                                            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                                                                            @RequestParam(value = "searchText", required = false) String searchText) {
         return ResponseObject.<PageResponse<PostCreationResponseDTO>>builder()
-                .result(postService.getPosts(limit, offset))
+                .result(postService.getPosts(searchText, pageSize, pageNumber))
                 .build();
     }
 }
