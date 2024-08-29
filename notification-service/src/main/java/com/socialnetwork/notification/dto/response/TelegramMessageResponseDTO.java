@@ -1,7 +1,8 @@
 package com.socialnetwork.notification.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,8 +12,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TelegramMessageResponseDTO {
-    @SerializedName("message_id")
     String messageId;
     Receiver from;
     Sender chat;
@@ -25,13 +26,10 @@ public class TelegramMessageResponseDTO {
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Receiver {
         String id;
-
-        @SerializedName("is_bot")
         Boolean isBot;
-
-        @SerializedName("first_name")
         String firstName;
         String username;
     }
@@ -42,10 +40,9 @@ public class TelegramMessageResponseDTO {
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Sender {
         String id;
-
-        @SerializedName("first_name")
         String firstName;
         String username;
         String type;

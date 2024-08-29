@@ -11,10 +11,13 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class GoogleAuthenticationResponseDTO {
-    String accessToken;
-    Long expiresIn;
-    String tokenType;
-    String scope;
-    String refreshToken;
+public class GoogleUserInfoResponseDTO {
+    String id;
+    String email;
+    boolean verifiedEmail;
+    String name;
+    String givenName;
+    String familyName;
+    String picture;
+    String locale;
 }

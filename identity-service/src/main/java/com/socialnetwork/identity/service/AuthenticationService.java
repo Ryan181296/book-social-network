@@ -132,7 +132,7 @@ public class AuthenticationService {
 
     public AuthenticationResponseDTO loginWithGoogle(OutboundAuthenticationRequestDTO requestDTO) {
         try {
-            var response = googleClient.exchangeAuthorizationCode(GoogleAuthenticationRequestDTO.builder()
+            var authenticationResponse = googleClient.exchangeAuthorizationCode(GoogleAuthenticationRequestDTO.builder()
                     .code(requestDTO.getAuthorizationCode())
                     .clientId(googleClientId)
                     .clientSecret(googleClientSecret)
@@ -140,8 +140,10 @@ public class AuthenticationService {
                     .redirectUri(googleRedirectUri)
                     .build());
 
+            var userInfoResponse = googleClient.getUserInfo("json", authenticationResponse.getAccessToken());
+
             return AuthenticationResponseDTO.builder()
-                    .accessToken(response.getAccessToken())
+                    .accessToken(authenticationResponse.getAccessToken())
                     .build();
         } catch (Exception e) {
             throw new CustomException(ErrorCode.EXCHANGE_GOOGLE_AUTHORIZATION_CODE_ERROR);
