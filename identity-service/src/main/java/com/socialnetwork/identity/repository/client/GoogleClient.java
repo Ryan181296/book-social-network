@@ -9,9 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(
+        name = "google-client",
         url = "${clients.google.url}",
         configuration = FeignErrorDecoder.class)
 public interface GoogleClient {
     @PostMapping(value = "/token", produces = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    GoogleAuthenticationResponseDTO login(@QueryMap GoogleAuthenticationRequestDTO requestDTO);
+    GoogleAuthenticationResponseDTO exchangeAuthorizationCode(@QueryMap GoogleAuthenticationRequestDTO requestDTO);
 }

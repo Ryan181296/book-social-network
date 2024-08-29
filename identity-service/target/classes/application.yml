@@ -31,3 +31,8 @@ clients:
   profile:
     host: ${PROFILE_HOST:http://localhost:8081/user-profile}
     create-profile-path: /v1/internal-profile
+  google:
+    url: https://oauth2.googleapis.com
+    client-id: 327355724913-cn5qmclcpvgla35q58ce5pfl9fol3pb7.apps.googleusercontent.com
+    client-secret: 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
+

@@ -55,6 +55,10 @@ public class AuthenticationService {
     @Value("${clients.google.client-id}")
     String googleClientId;
 
+    @NonFinal
+    @Value("${clients.google.redirect-uri}")
+    String googleRedirectUri;
+
     static final String ACCESS_TOKEN_TYPE = "Bearer";
 
     public AuthenticationResponseDTO login(AuthenticationRequestDTO requestDTO) {
@@ -128,11 +132,12 @@ public class AuthenticationService {
 
     public AuthenticationResponseDTO loginWithGoogle(OutboundAuthenticationRequestDTO requestDTO) {
         try {
-            var response = googleClient.login(GoogleAuthenticationRequestDTO.builder()
+            var response = googleClient.exchangeAuthorizationCode(GoogleAuthenticationRequestDTO.builder()
                     .code(requestDTO.getAuthorizationCode())
                     .clientId(googleClientId)
                     .clientSecret(googleClientSecret)
                     .grantType(GoogleGrantType.AUTHORIZATION_CODE.getValue())
+                    .redirectUri(googleRedirectUri)
                     .build());
 
             return AuthenticationResponseDTO.builder()

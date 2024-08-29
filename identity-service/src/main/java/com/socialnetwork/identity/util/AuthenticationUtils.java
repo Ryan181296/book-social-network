@@ -21,7 +21,7 @@ public class AuthenticationUtils {
                 .subject(userEntity.getId())
                 .claim("scope", buildScope(userEntity))
                 .jwtID(UUID.randomUUID().toString())
-                .issuer("messenger.com")
+                .issuer("book-sn.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
                 .build();
