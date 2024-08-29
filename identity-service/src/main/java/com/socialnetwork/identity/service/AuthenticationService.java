@@ -7,6 +7,7 @@ import com.socialnetwork.identity.dto.request.TokenVerificationRequestDTO;
 import com.socialnetwork.identity.dto.response.AuthenticationResponseDTO;
 import com.socialnetwork.identity.dto.response.TokenVerificationResponseDTO;
 import com.socialnetwork.identity.entity.InvalidatedTokenEntity;
+import com.socialnetwork.identity.entity.UserEntity;
 import com.socialnetwork.identity.enums.GoogleGrantType;
 import com.socialnetwork.identity.exception.ErrorCode;
 import com.socialnetwork.identity.exception.CustomException;
@@ -21,6 +22,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     @Autowired
@@ -132,6 +135,7 @@ public class AuthenticationService {
 
     public AuthenticationResponseDTO loginWithGoogle(OutboundAuthenticationRequestDTO requestDTO) {
         try {
+            log.info("Exchange authorization code for refresh token and access token");
             var authenticationResponse = googleClient.exchangeAuthorizationCode(GoogleAuthenticationRequestDTO.builder()
                     .code(requestDTO.getAuthorizationCode())
                     .clientId(googleClientId)
@@ -140,13 +144,23 @@ public class AuthenticationService {
                     .redirectUri(googleRedirectUri)
                     .build());
 
+            log.info("Get user info to onboard");
             var userInfoResponse = googleClient.getUserInfo("json", authenticationResponse.getAccessToken());
+            var userEntity = UserEntity.builder()
+                    .username(userInfoResponse.getEmail())
+                    .firstName(userInfoResponse.getGivenName())
+                    .lastName(userInfoResponse.getFamilyName())
+                    .email(userInfoResponse.getEmail())
+                    .build();
 
+            log.info("Save user information");
+            var userEntityCreated = userRepository.save(userEntity);
             return AuthenticationResponseDTO.builder()
-                    .accessToken(authenticationResponse.getAccessToken())
+                    .accessToken(AuthenticationUtils.generateAccessToken(userEntityCreated, secretKey))
                     .build();
         } catch (Exception e) {
-            throw new CustomException(ErrorCode.EXCHANGE_GOOGLE_AUTHORIZATION_CODE_ERROR);
+            log.error(e.getMessage());
+            throw new CustomException(ErrorCode.LOGIN_WITH_GOOGLE_ACCOUNT_ERROR);
         }
     }
 }
