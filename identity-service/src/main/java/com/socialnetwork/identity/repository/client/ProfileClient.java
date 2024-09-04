@@ -19,6 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
                 AuthenticationRequestInterceptor.class
         })
 public interface ProfileClient {
-    @PostMapping(value = "${clients.profile.create-profile-path}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "${clients.profile.create-profile-path}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     ResponseObject<UserProfileCreationResponseDTO> createProfile(@RequestBody UserProfileCreationRequestDTO requestDTO);
 }

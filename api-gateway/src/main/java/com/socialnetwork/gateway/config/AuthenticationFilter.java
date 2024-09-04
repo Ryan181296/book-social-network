@@ -33,6 +33,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     IdentityService identityService;
 
     static final String[] PUBLIC_ENDPOINTS = {
+            "/user-profile/api/v1/profile/registration",
             "/identity/api/v1/auth/google",
             "/identity/api/v1/auth/login",
             "/identity/api/v1/user/registration",

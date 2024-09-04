@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
         url = "${clients.telegram.url}",
         configuration = {FeignErrorDecoder.class})
 public interface TelegramClient {
-    @GetMapping(value = "/sendMessage", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/sendMessage", consumes = {MediaType.APPLICATION_JSON_VALUE})
     TelegramResponseObject<TelegramMessageResponseDTO> sendMessage(@RequestParam("chat_id") String chatId,
                                                                    @RequestParam("text") String message);
 }

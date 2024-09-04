@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
         url = "${clients.google.url}",
         configuration = FeignErrorDecoder.class)
 public interface GoogleClient {
-    @PostMapping(value = "/token", produces = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(value = "/token", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     GoogleAuthenticationResponseDTO exchangeAuthorizationCode(@QueryMap GoogleAuthenticationRequestDTO requestDTO);
 
-    @GetMapping(value = "/oauth2/v1/userInfo", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/oauth2/v1/userInfo", consumes = {MediaType.APPLICATION_JSON_VALUE})
     GoogleUserInfoResponseDTO getUserInfo(@RequestParam(value = "alt") String alt,
                                           @RequestParam(value = "access_token") String access_token);
 }

@@ -1,6 +1,5 @@
 package com.socialnetwork.profile.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,10 +13,10 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserProfileCreationRequestDTO {
     String userId;
+    String username;
     String firstName;
     String lastName;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
+    String password;
     Date dob;
     String email;
     String address;

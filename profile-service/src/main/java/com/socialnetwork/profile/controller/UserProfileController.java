@@ -8,23 +8,24 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/internal-profile")
+@RequiredArgsConstructor
+@RequestMapping(value = "/v1/profile")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class InternalUserProfileController {
+public class UserProfileController {
     @Autowired
     UserProfileService userProfileService;
 
-    @PostMapping
-    public ResponseObject<UserProfileCreationResponseDTO> create(@RequestBody UserProfileCreationRequestDTO requestDTO) {
+    @PostMapping(value = "/registration", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseObject<UserProfileCreationResponseDTO> register(@RequestBody UserProfileCreationRequestDTO requestDTO) {
         return ResponseObject.<UserProfileCreationResponseDTO>builder()
-                .result(userProfileService.create(requestDTO))
+                .result(userProfileService.register(requestDTO))
                 .build();
     }
 }

@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
         url = "${clients.brevo.url}",
         configuration = {FeignErrorDecoder.class})
 public interface BrevoClient {
-    @PostMapping(value = "/v3/smtp/email", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/v3/smtp/email", consumes = {MediaType.APPLICATION_JSON_VALUE})
     EmailResponseDTO sendEmail(@RequestHeader("api-key") String apiKey, @RequestBody EmailRequestDTO requestDTO);
 }

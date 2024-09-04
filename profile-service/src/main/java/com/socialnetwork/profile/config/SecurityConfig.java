@@ -33,6 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers("/v1/internal-profile").permitAll()
+                        .requestMatchers("/v1/profile/registration").permitAll()
                         .requestMatchers("v1/**").authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
