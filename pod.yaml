@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app2
+  labels:
+    app: app2
+spec:
+  containers:
+    - name: app2
+      image: vietaws/arm:v2
+      ports:
+        - containerPort: 8080
