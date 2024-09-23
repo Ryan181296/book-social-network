@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TestService {
     static final int BATCH_SIZE = 100;
 
