@@ -1,8 +1,8 @@
 package com.socialnetwork.identity.service;
 
+import com.nimbusds.jwt.SignedJWT;
 import com.socialnetwork.identity.entity.InvalidatedTokenEntity;
 import com.socialnetwork.identity.repository.InvalidatedTokenRepository;
-import com.nimbusds.jwt.SignedJWT;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
