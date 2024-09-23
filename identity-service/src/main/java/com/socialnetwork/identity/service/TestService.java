@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.socialnetwork.identity.entity.TestEntity;
 import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.exception.ErrorCode;
+import com.socialnetwork.identity.repository.TestRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,9 @@ public class TestService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    TestRepository testRepository;
 
     @Transactional
     public void importUsers(String filePath) {
@@ -62,9 +67,7 @@ public class TestService {
     }
 
     private void saveToDatabase(List<TestEntity> records) {
-        for (TestEntity record : records) {
-            entityManager.persist(record);
-        }
+        testRepository.saveAll(records);
         entityManager.flush();
         entityManager.clear();
     }
