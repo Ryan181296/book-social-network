@@ -14,24 +14,23 @@ import java.util.List;
 @Slf4j
 class ProfileServiceApplicationTests {
 	@Test
-	void contextLoads(){
+	void contextLoads() {
 		String filePath = System.getProperty("user.home") + "/Downloads/data.json";
 		List<Record> records = new ArrayList<>();
 
 		for (int i = 1; i <= 2000000; i++) {
-			log.info("record" + i);
+			log.info("record {}", i);
 			String name = "Name" + i;
 			String address = "Address" + i;
 			String description = "Description for record " + i;
 			records.add(new Record(name, address, description));
 		}
 
-		Gson gson = new Gson();
-		try (FileWriter writer = new FileWriter(filePath)) {
+		var gson = new Gson();
+		try (var writer = new FileWriter(filePath)) {
 			gson.toJson(records, writer);
-			System.out.println("File JSON đã được tạo tại: " + filePath);
-		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("File is created: {}", filePath);
+		} catch (IOException ignored) {
 		}
 	}
 }

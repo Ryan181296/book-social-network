@@ -3,9 +3,12 @@ package com.socialnetwork.identity.service;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.socialnetwork.identity.dto.response.PageResponse;
+import com.socialnetwork.identity.dto.response.UserTestResponseDTO;
 import com.socialnetwork.identity.entity.TestEntity;
 import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.exception.ErrorCode;
+import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.TestRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +74,24 @@ public class TestService {
         testRepository.saveAll(records);
         entityManager.flush();
         entityManager.clear();
+    }
+
+    public PageResponse<UserTestResponseDTO> getUsers(String address, String description, int pageNumber, int pageSize) {
+        var pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        var pageData = testRepository.findAll(address, description, pageRequest);
+
+        List<UserTestResponseDTO> data = pageData.getContent().stream().map(this::mapToUserTestResponseDTO).toList();
+
+        return PageResponse.<UserTestResponseDTO>builder()
+                .data(data)
+                .totalPages(pageData.getTotalPages())
+                .totalItems(pageData.getTotalElements())
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .build();
+    }
+
+    private UserTestResponseDTO mapToUserTestResponseDTO(TestEntity testEntity) {
+        return JsonMapper.map(testEntity, UserTestResponseDTO.class);
     }
 }
