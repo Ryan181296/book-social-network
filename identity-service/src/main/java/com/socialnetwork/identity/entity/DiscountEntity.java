@@ -6,17 +6,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
-@Entity(name = "test")
+import java.util.Date;
+
+@Entity(name = "discount")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestEntity {
+public class DiscountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String name;
-    String address;
+    String code;
     String description;
+    Boolean isUsed;
+    Date createDate;
 }

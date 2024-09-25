@@ -32,7 +32,9 @@ public enum ErrorCode {
     FIRST_NAME_INVALID(1113, "First name invalid", HttpStatus.BAD_REQUEST),
     LAST_NAME_INVALID(1114, "Last name invalid", HttpStatus.BAD_REQUEST),
     CREATE_USER_PROFILE_ERROR(1115, "Create user profile error", HttpStatus.INTERNAL_SERVER_ERROR),
-    LOGIN_WITH_GOOGLE_ACCOUNT_ERROR(1116, "Login with Google account error", HttpStatus.INTERNAL_SERVER_ERROR);
+    LOGIN_WITH_GOOGLE_ACCOUNT_ERROR(1116, "Login with Google account error", HttpStatus.INTERNAL_SERVER_ERROR),
+    DISCOUNT_USED(1118, "Discount is used", HttpStatus.BAD_REQUEST),
+    DISCOUNT_INVALID(1117, "Discount invalid", HttpStatus.BAD_REQUEST);
 
     int code;
     String message;

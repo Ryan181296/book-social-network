@@ -7,9 +7,11 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Record {
     String name;
-    String address;
     String description;
+    String code;
+    Boolean isUsed;
 }

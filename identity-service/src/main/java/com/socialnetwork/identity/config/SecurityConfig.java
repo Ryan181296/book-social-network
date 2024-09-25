@@ -35,8 +35,9 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers("/v1/auth/login").permitAll()
                         .requestMatchers("/v1/auth/google").permitAll()
-                        .requestMatchers("/v1/test/import-users").permitAll()
-                        .requestMatchers("/v1/test/users").permitAll()
+                        .requestMatchers("/v1/discount/list").permitAll()
+                        .requestMatchers("/v1/discount/import").permitAll()
+                        .requestMatchers("/v1/discount/apply/**").permitAll()
                         .requestMatchers("/v1/auth/refresh-token").permitAll()
                         .requestMatchers("/v1/auth/verify-token").permitAll()
                         .requestMatchers("/v1/notification").permitAll()

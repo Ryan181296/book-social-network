@@ -26,6 +26,11 @@ kafka:
     topics:
       notification: notification_topic
 
+singleServerConfig:
+  address: redis://localhost:6379
+  connectionPoolSize: 10
+  connectionMinimumIdleSize: 2
+
 jwt:
   secret-key: ${SECRET_KEY:uz85j9Ka41OK2jQEY0z8C6cC0hsHzRo1jMyfvYY0iU9MkwO2xdyU+T7GkFI87lji}
 
