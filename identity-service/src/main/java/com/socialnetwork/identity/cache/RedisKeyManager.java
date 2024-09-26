@@ -1,4 +1,4 @@
-package com.socialnetwork.identity.util;
+package com.socialnetwork.identity.cache;
 
 public class RedisKeyManager {
     private static final String DISCOUNT = "DISCOUNT:%s";

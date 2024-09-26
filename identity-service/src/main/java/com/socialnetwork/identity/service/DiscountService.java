@@ -10,7 +10,7 @@ import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.exception.ErrorCode;
 import com.socialnetwork.identity.mapper.JsonMapper;
 import com.socialnetwork.identity.repository.DiscountRepository;
-import com.socialnetwork.identity.util.RedisKeyManager;
+import com.socialnetwork.identity.cache.RedisKeyManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
