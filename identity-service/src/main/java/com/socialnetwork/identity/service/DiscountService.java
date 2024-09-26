@@ -9,7 +9,7 @@ import com.socialnetwork.identity.entity.DiscountEntity;
 import com.socialnetwork.identity.exception.CustomException;
 import com.socialnetwork.identity.exception.ErrorCode;
 import com.socialnetwork.identity.mapper.JsonMapper;
-import com.socialnetwork.identity.repository.TestRepository;
+import com.socialnetwork.identity.repository.DiscountRepository;
 import com.socialnetwork.identity.util.RedisKeyManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -45,7 +45,7 @@ public class DiscountService {
     RedissonClient redissonClient;
 
     @Autowired
-    TestRepository discountRepository;
+    DiscountRepository discountRepository;
 
     @Transactional
     public void importDiscounts(String filePath, String createDate) {
@@ -103,8 +103,11 @@ public class DiscountService {
                         lock.unlock();
                     }
                 }
+            } else {
+                throw new CustomException(ErrorCode.DISCOUNT_USED);
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new CustomException(ErrorCode.DISCOUNT_USED);
         }
     }

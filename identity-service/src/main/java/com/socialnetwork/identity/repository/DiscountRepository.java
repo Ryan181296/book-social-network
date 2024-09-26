@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TestRepository extends JpaRepository<DiscountEntity, String> {
+public interface DiscountRepository extends JpaRepository<DiscountEntity, String> {
     @Query(value = "SELECT * FROM discount d WHERE d.create_date BETWEEN '2023-12-01' AND '2024-01-30'",
             nativeQuery = true)
     Page<DiscountEntity> findAll(@Param("address") String address,
