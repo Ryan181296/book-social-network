@@ -12,7 +12,7 @@ public class JsonMapper {
 
     public static <T> T map(Object obj, Class<T> clazz) {
         try {
-            var json = gson.toJson(obj);
+            var json = obj instanceof String ? (String)obj : gson.toJson(obj);
             return gson.fromJson(json, clazz);
         } catch (Exception e) {
             log.error("Deserialize object error {}", e.getMessage());

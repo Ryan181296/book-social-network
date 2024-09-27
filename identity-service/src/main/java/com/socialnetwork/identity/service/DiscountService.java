@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DiscountService {
-    static final int BATCH_SIZE = 100;
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final int BATCH_SIZE = 100;
 
     @PersistenceContext
     EntityManager entityManager;
