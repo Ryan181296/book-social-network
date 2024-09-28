@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,6 +18,7 @@ import java.util.Objects;
 
 @Slf4j
 public class ImplementAPITest {
+    private static final String URL = "https://jsonmock.hackerrank.com/api/universities?page=%s";
 
     @Test
     void testCase1() {
@@ -38,65 +38,61 @@ public class ImplementAPITest {
         log.info("case 2: {}", result);
     }
 
-    private String highestInternationalStudents(String firstCity, String secondCity) {
+    private String highestInternationalStudents(String firstCity, String lastCity) {
         var universities = fetchUniversities();
 
-        var universityOfFirstCity = getUniversityWithMaxStudents(universities, firstCity);
+        var universityOfFirstCity = getUniversity(universities, firstCity);
         if (StringUtils.hasText(universityOfFirstCity)) {
             return universityOfFirstCity;
-        } else {
-            return getUniversityWithMaxStudents(universities, secondCity);
         }
+        return getUniversity(universities, lastCity);
     }
 
-    private String getUniversityWithMaxStudents(List<UniversityResponseDTO.University> universities, String city) {
+    private String getUniversity(List<UniversityResponseDTO.University> universities, String city) {
         return universities.stream()
                 .filter(university -> university.getLocation().getCity().equals(city))
-                .max(Comparator.comparingInt(university -> Integer.parseInt(university.getInternationalStudents().replace(",",""))))
+                .max(Comparator.comparingInt(university -> Integer.parseInt(university.getInternationalStudents().replace(",", ""))))
                 .map(UniversityResponseDTO.University::getUniversity)
                 .orElse(null);
     }
 
     private List<UniversityResponseDTO.University> fetchUniversities() {
-        var urlStr = "https://jsonmock.hackerrank.com/api/universities?page=%s";
         int page = 1;
         int totalPages = 1;
 
         List<UniversityResponseDTO.University> universities = new ArrayList<>();
-        try {
-            while (page <= totalPages) {
-                var requestUri = String.format(urlStr, page);
-                var responseJson = getApiResponse(requestUri);
-                var responseData = JsonMapper.map(responseJson, UniversityResponseDTO.class);
+        while (page <= totalPages) {
+            var requestUri = String.format(URL, page);
+            var responseData = getApiResponse(requestUri);
 
-                if (Objects.nonNull(responseData)) {
-                    totalPages = responseData.getTotalPages();
-                    var universitiesOfCurrentPage = responseData.getData();
-
-                    if (!CollectionUtils.isEmpty(universitiesOfCurrentPage)) {
-                        universities.addAll(universitiesOfCurrentPage);
-                    }
+            if (Objects.nonNull(responseData)) {
+                totalPages = responseData.getTotalPages();
+                var universitiesOfCurrentPage = responseData.getData();
+                if (!CollectionUtils.isEmpty(universitiesOfCurrentPage)) {
+                    universities.addAll(universitiesOfCurrentPage);
                 }
-                page++;
             }
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            page++;
         }
         return universities;
     }
 
-    private String getApiResponse(String requestUri) throws Exception {
-        var url = new URL(requestUri);
-        var connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod(RequestMethod.GET.name());
+    private UniversityResponseDTO getApiResponse(String requestUri) {
+        try {
+            var url = new URL(requestUri);
+            var connection = (HttpURLConnection) url.openConnection();
+            var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        var builder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
+            String lineData;
+            while ((lineData = reader.readLine()) != null) {
+                stringBuilder.append(lineData);
+            }
 
-        String dateLine;
-        while ((dateLine = reader.readLine()) != null) {
-            builder.append(dateLine);
+            return JsonMapper.map(stringBuilder.toString(), UniversityResponseDTO.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
         }
-        return builder.toString();
     }
 }
