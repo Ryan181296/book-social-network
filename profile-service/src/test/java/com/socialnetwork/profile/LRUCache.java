@@ -27,12 +27,11 @@ public class LRUCache {
 
     private int getMinimumSize(List<String> requests, int k) {
         int left = 1;
-        int mid;
         int right = requests.size();
+        int mid;
         int result = -1;
         while (left <= right) {
             mid = (left + right) / 2;
-
             var hits = countCacheHits(requests, mid);
             if (hits >= k) {
                 result = mid;
